@@ -1,0 +1,11 @@
+import { createHash, randomUUID } from 'node:crypto';
+export const assert=(condition,code)=>{if(!condition){const e=new Error(code);e.code=code;throw e;}};
+export const money=(amountMinor,currency='USD')=>{assert(Number.isSafeInteger(amountMinor),'INVALID_MONEY');assert(/^[A-Z]{3}$/.test(currency),'INVALID_CURRENCY');return Object.freeze({amountMinor,currency});};
+export const addMoney=(a,b)=>{assert(a.currency===b.currency,'CURRENCY_MISMATCH');return money(a.amountMinor+b.amountMinor,a.currency);};
+export const hashPayload=(value)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+export class IdempotencyStore{#items=new Map();run(key,payload,fn){assert(key,'IDEMPOTENCY_KEY_REQUIRED');const hash=hashPayload(payload);const current=this.#items.get(key);if(current){assert(current.hash===hash,'IDEMPOTENCY_PAYLOAD_CONFLICT');return current.value;}const value=fn();this.#items.set(key,{hash,value});return value;}}
+export class CircuitBreaker{constructor({failureThreshold=5,cooldownMs=30_000,now=()=>Date.now()}={}){this.failureThreshold=failureThreshold;this.cooldownMs=cooldownMs;this.now=now;this.failures=0;this.openedAt=null;}async execute(fn){if(this.openedAt!==null&&this.now()-this.openedAt<this.cooldownMs)throw new Error('CIRCUIT_OPEN');try{const out=await fn();this.failures=0;this.openedAt=null;return out;}catch(error){this.failures++;if(this.failures>=this.failureThreshold)this.openedAt=this.now();throw error;}}}
+export const retryDelayMs=(attempt,{baseMs=250,maxMs=60_000,jitter=0}={})=>Math.min(maxMs,baseMs*2**Math.max(0,attempt-1))+jitter;
+export const canonicalEvent=({type,aggregateType,aggregateId,payload,correlationId=randomUUID(),causationId=null,occurredAt=new Date().toISOString()})=>Object.freeze({id:randomUUID(),type,version:1,aggregateType,aggregateId,payload,correlationId,causationId,occurredAt});
+export const requireTenant=(actorOrganisationId,resourceOrganisationId)=>assert(actorOrganisationId===resourceOrganisationId,'TENANT_BOUNDARY_VIOLATION');
+export const outboxLeaseSql=`WITH candidates AS (SELECT id FROM "OutboxEvent" WHERE status='PENDING' ORDER BY "createdAt" FOR UPDATE SKIP LOCKED LIMIT $1) UPDATE "OutboxEvent" o SET status='PUBLISHED', "publishedAt"=NOW() FROM candidates c WHERE o.id=c.id RETURNING o.*`;

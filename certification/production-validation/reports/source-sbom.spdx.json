@@ -1,0 +1,967 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "AdGeco source dependency SBOM",
+  "documentNamespace": "https://adgeco.invalid/spdx/source-1785146742650",
+  "creationInfo": {
+    "created": "2026-07-27T10:05:42.650Z",
+    "creators": [
+      "Tool: adgeco-generate-source-sbom"
+    ]
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/api",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fapi@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/exchange-service",
+      "versionInfo": "0.50.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fexchange-service@0.50.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/fraud-service",
+      "versionInfo": "0.50.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Ffraud-service@0.50.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/ledger-service",
+      "versionInfo": "0.50.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fledger-service@0.50.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/measurement-service",
+      "versionInfo": "0.50.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fmeasurement-service@0.50.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/notification-service",
+      "versionInfo": "0.40.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fnotification-service@0.40.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/reporting-service",
+      "versionInfo": "0.40.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Freporting-service@0.40.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/settlement-service",
+      "versionInfo": "0.50.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fsettlement-service@0.50.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/web",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fweb@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/worker",
+      "versionInfo": "0.20.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fworker@0.20.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f61646765",
+      "name": "adgeco",
+      "versionInfo": "1.2.0-launch-candidate.1",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/adgeco@1.2.0-launch-candidate.1"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/auth",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fauth@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/config",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fconfig@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/contracts",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fcontracts@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/database",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fdatabase@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/domain",
+      "versionInfo": "0.20.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fdomain@0.20.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/email",
+      "versionInfo": "0.20.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Femail@0.20.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/event-bus",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fevent-bus@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/integrations",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fintegrations@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/observability",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fobservability@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/openrtb",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fopenrtb@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/platform-runtime",
+      "versionInfo": "0.70.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fplatform-runtime@0.70.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/runtime-core",
+      "versionInfo": "0.40.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fruntime-core@0.40.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/sdk-android",
+      "versionInfo": "0.20.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fsdk-android@0.20.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/sdk-ios",
+      "versionInfo": "0.20.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fsdk-ios@0.20.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f636f6d2e",
+      "name": "com.adgeco.unity",
+      "versionInfo": "0.1.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/com.adgeco.unity@0.1.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/sdk-web",
+      "versionInfo": "1.0.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fsdk-web@1.0.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-706b673a6e706d2f25343061",
+      "name": "@adgeco/service-runtime",
+      "versionInfo": "0.50.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/%40adgeco%2Fservice-runtime@0.50.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    }
+  ],
+  "annotations": [
+    {
+      "annotationDate": "2026-07-27T10:05:42.650Z",
+      "annotationType": "OTHER",
+      "annotator": "Tool: adgeco-generate-source-sbom",
+      "comment": "Source-manifest SBOM only. Resolved transitive versions require a registry-backed frozen installation."
+    }
+  ],
+  "declaredRelationships": [
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/auth",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/config",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/contracts",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/observability",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "fastify",
+      "declaredVersion": "^5.4.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "jose",
+      "declaredVersion": "^6.0.11",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/openrtb",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@adgeco/integrations",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "tsx",
+      "declaredVersion": "^4.20.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/api",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "@adgeco/service-runtime",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "fastify",
+      "declaredVersion": "^5.4.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "@prisma/client",
+      "declaredVersion": "^6.10.1",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/exchange-service",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/fraud-service",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/fraud-service",
+      "dependency": "@adgeco/service-runtime",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/fraud-service",
+      "dependency": "fastify",
+      "declaredVersion": "^5.4.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/fraud-service",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/fraud-service",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/fraud-service",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "@adgeco/service-runtime",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "fastify",
+      "declaredVersion": "^5.4.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "@prisma/client",
+      "declaredVersion": "^6.10.1",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/ledger-service",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/measurement-service",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/measurement-service",
+      "dependency": "@adgeco/service-runtime",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/measurement-service",
+      "dependency": "fastify",
+      "declaredVersion": "^5.4.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/measurement-service",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/measurement-service",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/measurement-service",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "@adgeco/service-runtime",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "@adgeco/integrations",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "fastify",
+      "declaredVersion": "^5.4.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "@prisma/client",
+      "declaredVersion": "^6.10.1",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/settlement-service",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/web",
+      "dependency": "next",
+      "declaredVersion": "^15.3.4",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/web",
+      "dependency": "react",
+      "declaredVersion": "^19.1.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/web",
+      "dependency": "react-dom",
+      "declaredVersion": "^19.1.0",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/web",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/web",
+      "dependency": "@types/react",
+      "declaredVersion": "^19.1.8",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/web",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "@adgeco/database",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "@adgeco/config",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "@adgeco/observability",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "@adgeco/email",
+      "declaredVersion": "workspace:*",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "tsx",
+      "declaredVersion": "^4.20.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/worker",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "adgeco",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "adgeco",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/auth",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/auth",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/config",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/config",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/contracts",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/contracts",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/database",
+      "dependency": "@prisma/client",
+      "declaredVersion": "^6.10.1",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/database",
+      "dependency": "prisma",
+      "declaredVersion": "^6.10.1",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/database",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/database",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/email",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/email",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/event-bus",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/event-bus",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/integrations",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/integrations",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/integrations",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/observability",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/observability",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/openrtb",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/openrtb",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/sdk-web",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/service-runtime",
+      "dependency": "zod",
+      "declaredVersion": "^3.25.67",
+      "scope": "dependencies"
+    },
+    {
+      "source": "@adgeco/service-runtime",
+      "dependency": "typescript",
+      "declaredVersion": "^5.8.3",
+      "scope": "devDependencies"
+    },
+    {
+      "source": "@adgeco/service-runtime",
+      "dependency": "@types/node",
+      "declaredVersion": "^22.15.32",
+      "scope": "devDependencies"
+    }
+  ]
+}

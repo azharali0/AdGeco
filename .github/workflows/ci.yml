@@ -1,0 +1,32 @@
+name: ci
+on: [push, pull_request]
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: {POSTGRES_PASSWORD: postgres, POSTGRES_USER: postgres, POSTGRES_DB: adgeco_test}
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/adgeco_test
+      JWT_SECRET: ci-only-secret-ci-only-secret
+      TOKEN_PEPPER: ci-only-pepper-ci-only-pepper
+      ENCRYPTION_KEY: ci-only-encryption-key-32-characters
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.12.1}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: pnpm}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:generate
+      - run: pnpm db:validate
+      - run: pnpm --filter @adgeco/database prisma migrate deploy
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm remediation:verify

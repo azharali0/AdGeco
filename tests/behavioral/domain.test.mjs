@@ -1,0 +1,10 @@
+import test from 'node:test'; import assert from 'node:assert/strict';
+import {selectAuctionWinner,splitRevenue,assertBalancedLedger,calculateSettlement,nextRetryAt,stableIdempotencyKey} from '../../packages/domain/src/index.mjs';
+test('auction selects deterministic highest eligible bid',()=>{const w=selectAuctionWinner([{id:'b',bidMicros:120,floorMicros:100,eligible:true},{id:'a',bidMicros:120,floorMicros:100,eligible:true},{id:'x',bidMicros:999,floorMicros:100,eligible:false}]);assert.equal(w.id,'a');});
+test('auction rejects bids below floor',()=>assert.equal(selectAuctionWinner([{id:'a',bidMicros:99,floorMicros:100,eligible:true}]),null));
+test('revenue split preserves every micro-unit',()=>assert.deepEqual(splitRevenue(101,7000),{grossMicros:101,publisherMicros:70,platformMicros:31}));
+test('ledger balance invariant',()=>assert.equal(assertBalancedLedger([{accountId:'cash',direction:'DEBIT',amountMicros:500},{accountId:'revenue',direction:'CREDIT',amountMicros:500}]),true));
+test('unbalanced ledger is rejected',()=>assert.throws(()=>assertBalancedLedger([{accountId:'a',direction:'DEBIT',amountMicros:500},{accountId:'b',direction:'CREDIT',amountMicros:499}]),/UNBALANCED/));
+test('settlement withholding is deterministic',()=>assert.deepEqual(calculateSettlement(10001,1500),{grossMicros:10001,withholdingMicros:1500,netMicros:8501}));
+test('retry backoff is bounded',()=>assert.equal((nextRetryAt(20,new Date(0)).getTime())/(60_000),1440));
+test('idempotency key is stable and order-sensitive',()=>{assert.equal(stableIdempotencyKey(['a',1]),stableIdempotencyKey(['a',1]));assert.notEqual(stableIdempotencyKey(['a',1]),stableIdempotencyKey([1,'a']));});

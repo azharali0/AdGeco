@@ -1,0 +1,25 @@
+import Fastify from 'fastify';
+import { z } from 'zod';
+import { Prisma } from '@prisma/client';
+import { prisma } from '@adgeco/database';
+import { servicePort, requireServiceToken, serviceAuthHeader } from '@adgeco/service-runtime';
+const app = Fastify({ logger: true });
+app.addHook('onRequest', async (req) => requireServiceToken(serviceAuthHeader(req.headers)));
+app.get('/health/live', async () => ({ status: 'ok', service: 'ledger' }));
+app.get('/health/ready', async (_r, reply) => { try {
+    await prisma.$queryRaw `SELECT 1`;
+    return { status: 'ok' };
+}
+catch {
+    return reply.code(503).send({ status: 'degraded' });
+} });
+app.post('/v1/accounts', async (req, reply) => { const b = z.object({ organisationId: z.string().uuid().optional(), code: z.string().min(2), name: z.string().min(2), type: z.enum(['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE']), currency: z.string().length(3) }).parse(req.body); return reply.code(201).send(await prisma.ledgerAccount.upsert({ where: { code: b.code }, create: b, update: { name: b.name, active: true } })); });
+app.post('/v1/entries', async (req, reply) => { const b = z.object({ reference: z.string().min(4), description: z.string().min(2), occurredAt: z.coerce.date(), metadata: z.record(z.unknown()).default({}), lines: z.array(z.object({ accountCode: z.string(), debit: z.number().nonnegative().default(0), credit: z.number().nonnegative().default(0), currency: z.string().length(3) })).min(2) }).parse(req.body); const debits = b.lines.reduce((s, l) => s + l.debit, 0), credits = b.lines.reduce((s, l) => s + l.credit, 0); if (Math.abs(debits - credits) > 0.000001)
+    return reply.code(422).send({ code: 'UNBALANCED_ENTRY' }); const existing = await prisma.ledgerEntry.findUnique({ where: { reference: b.reference }, include: { lines: true } }); if (existing)
+    return existing; const accounts = await prisma.ledgerAccount.findMany({ where: { code: { in: b.lines.map(l => l.accountCode) } } }); const byCode = new Map(accounts.map((a) => [a.code, a])); if (accounts.length !== new Set(b.lines.map(l => l.accountCode)).size)
+    return reply.code(422).send({ code: 'ACCOUNT_NOT_FOUND' }); return reply.code(201).send(await prisma.ledgerEntry.create({ data: { reference: b.reference, description: b.description, occurredAt: b.occurredAt, metadata: b.metadata, lines: { create: b.lines.map(l => ({ accountId: byCode.get(l.accountCode).id, debit: new Prisma.Decimal(l.debit), credit: new Prisma.Decimal(l.credit), currency: l.currency })) } }, include: { lines: true } })); });
+;
+app.post('/v1/entries/:reference/reverse', async (req, reply) => { const { reference } = z.object({ reference: z.string() }).parse(req.params); const b = z.object({ newReference: z.string().min(4), reason: z.string().min(3) }).parse(req.body); const source = await prisma.ledgerEntry.findUnique({ where: { reference }, include: { lines: true } }); if (!source)
+    return reply.code(404).send({ code: 'ENTRY_NOT_FOUND' }); const existing = await prisma.ledgerEntry.findUnique({ where: { reference: b.newReference }, include: { lines: true } }); if (existing)
+    return existing; const reversal = await prisma.ledgerEntry.create({ data: { reference: b.newReference, description: `Reversal: ${b.reason}`, occurredAt: new Date(), reversedEntryId: source.id, metadata: { sourceReference: reference }, lines: { create: source.lines.map((l) => ({ accountId: l.accountId, debit: l.credit, credit: l.debit, currency: l.currency })) } }, include: { lines: true } }); await prisma.ledgerEntry.update({ where: { id: source.id }, data: { status: 'REVERSED' } }); return reply.code(201).send(reversal); });
+app.listen({ port: servicePort(4104), host: '0.0.0.0' });

@@ -1,0 +1,13 @@
+
+> @adgeco/sdk-android@0.20.0 typecheck
+> mkdir -p build && kotlinc src/AdGecoClient.kt -Werror -d build/adgeco-sdk.jar
+
+
+> @adgeco/sdk-ios@0.20.0 typecheck
+> swiftc -typecheck src/AdGecoClient.swift
+
+
+> com.adgeco.unity@0.1.0 typecheck
+> node scripts/validate.mjs
+
+unity-sdk-source-ok

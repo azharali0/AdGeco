@@ -1,0 +1,1 @@
+{"name":"com.adgeco.unity","version":"0.1.0","displayName":"AdGeco Unity SDK","unity":"2021.3","description":"AdGeco ad request client for Unity games.","scripts":{"build":"node scripts/validate.mjs","typecheck":"node scripts/validate.mjs"}}

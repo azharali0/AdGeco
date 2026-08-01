@@ -1,0 +1,74 @@
+import { z } from 'zod';
+import { prisma } from '@adgeco/database';
+import { signAccessSession, signMfaChallenge, verifySession } from '../auth/session.js';
+import { decryptSecret, encryptSecret, generateTotpSecret, hashPassword, randomToken, verifyPassword, verifyTotp } from '@adgeco/auth';
+import { config, email, orgType, tokenHash, context, rolesFor, audit, issueSession } from '../shared.js';
+export const authRoutes = async (app) => {
+    app.post('/v1/auth/register', async (req, reply) => {
+        const body = z.object({ email, password: z.string(), organisationName: z.string().min(2).max(120), organisationType: orgType }).parse(req.body);
+        const normalEmail = email.parse(body.email);
+        const slugBase = body.organisationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) || 'organisation';
+        const passwordHash = await hashPassword(body.password);
+        const verification = randomToken();
+        const ownerRole = `${body.organisationType}_OWNER`;
+        try {
+            const result = await prisma.$transaction(async (tx) => { const user = await tx.user.create({ data: { email: normalEmail, passwordHash } }); const organisation = await tx.organisation.create({ data: { name: body.organisationName, type: body.organisationType, slug: `${slugBase}-${randomToken(4).toLowerCase()}` } }); await tx.organisationMembership.create({ data: { userId: user.id, organisationId: organisation.id, role: ownerRole, status: 'ACTIVE' } }); await tx.userToken.create({ data: { userId: user.id, purpose: 'EMAIL_VERIFICATION', tokenHash: tokenHash(verification), expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) } }); await tx.outboxEvent.create({ data: { organisationId: organisation.id, type: 'UserRegistered', correlationId: req.id, payload: { userId: user.id, email: user.email, verificationTokenEncrypted: encryptSecret(verification, config.tokenPepper) } } }); return { user, organisation }; });
+            await audit({ organisationId: result.organisation.id, actorId: result.user.id, action: 'identity.user_registered', entityType: 'User', entityId: result.user.id, requestId: req.id });
+            return reply.code(201).send({ userId: result.user.id, organisation: { id: result.organisation.id, name: result.organisation.name, type: result.organisation.type }, verificationRequired: true, ...(config.nodeEnv === 'production' ? {} : { developmentVerificationToken: verification }) });
+        }
+        catch (error) {
+            if (String(error).includes('Unique constraint'))
+                return reply.code(409).send({ code: 'EMAIL_ALREADY_REGISTERED' });
+            throw error;
+        }
+    });
+    app.post('/v1/auth/email/verify', async (req, reply) => { const body = z.object({ token: z.string().min(20) }).parse(req.body); const record = await prisma.userToken.findFirst({ where: { tokenHash: tokenHash(body.token), purpose: 'EMAIL_VERIFICATION', consumedAt: null, expiresAt: { gt: new Date() } } }); if (!record)
+        return reply.code(400).send({ code: 'INVALID_OR_EXPIRED_TOKEN' }); await prisma.$transaction([prisma.user.update({ where: { id: record.userId }, data: { emailVerifiedAt: new Date() } }), prisma.userToken.update({ where: { id: record.id }, data: { consumedAt: new Date() } })]); await audit({ actorId: record.userId, action: 'identity.email_verified', entityType: 'User', entityId: record.userId, requestId: req.id }); return { verified: true }; });
+    app.post('/v1/auth/login', async (req, reply) => {
+        const body = z.object({ email, password: z.string(), organisationId: z.string().uuid().optional(), mfaCode: z.string().regex(/^\d{6}$/).optional() }).parse(req.body);
+        const normalEmail = email.parse(body.email);
+        const user = await prisma.user.findUnique({ where: { email: normalEmail }, include: { memberships: { where: { status: 'ACTIVE' }, include: { organisation: true } } } });
+        if (!user || user.lockedUntil && user.lockedUntil > new Date() || !await verifyPassword(body.password, user.passwordHash)) {
+            if (user) {
+                const attempts = user.failedLoginAttempts + 1;
+                await prisma.user.update({ where: { id: user.id }, data: { failedLoginAttempts: attempts, lockedUntil: attempts >= 5 ? new Date(Date.now() + 15 * 60 * 1000) : null } });
+            }
+            return reply.code(401).send({ code: 'INVALID_CREDENTIALS' });
+        }
+        if (!user.emailVerifiedAt)
+            return reply.code(403).send({ code: 'EMAIL_NOT_VERIFIED' });
+        const membership = body.organisationId ? user.memberships.find(m => m.organisationId === body.organisationId) : user.memberships[0];
+        if (!membership)
+            return reply.code(403).send({ code: 'NO_ACTIVE_ORGANISATION' });
+        const roles = await rolesFor(user.id, membership.organisationId);
+        if (user.mfaEnabled) {
+            if (!body.mfaCode) {
+                const challenge = await signMfaChallenge({ sub: user.id, organisationId: membership.organisationId, roles }, config.jwtSecret);
+                return reply.code(202).send({ mfaRequired: true, challengeToken: challenge });
+            }
+            if (!user.mfaSecretEncrypted || !verifyTotp(decryptSecret(user.mfaSecretEncrypted, config.tokenPepper), body.mfaCode))
+                return reply.code(401).send({ code: 'INVALID_MFA_CODE' });
+        }
+        await prisma.user.update({ where: { id: user.id }, data: { failedLoginAttempts: 0, lockedUntil: null, lastLoginAt: new Date() } });
+        const session = await issueSession(user.id, membership.organisationId, roles, req);
+        await audit({ organisationId: membership.organisationId, actorId: user.id, action: 'identity.login_succeeded', entityType: 'Session', entityId: session.sessionId, requestId: req.id });
+        return { ...session, user: { id: user.id, email: user.email }, organisation: { id: membership.organisation.id, name: membership.organisation.name, type: membership.organisation.type }, roles };
+    });
+    app.post('/v1/auth/mfa/complete', async (req, reply) => { const body = z.object({ challengeToken: z.string(), code: z.string().regex(/^\d{6}$/) }).parse(req.body); const claims = await verifySession(body.challengeToken, config.jwtSecret, 'mfa'); const user = await prisma.user.findUnique({ where: { id: claims.sub } }); if (!user?.mfaEnabled || !user.mfaSecretEncrypted || !verifyTotp(decryptSecret(user.mfaSecretEncrypted, config.tokenPepper), body.code))
+        return reply.code(401).send({ code: 'INVALID_MFA_CODE' }); return issueSession(user.id, claims.organisationId, claims.roles, req); });
+    app.post('/v1/auth/refresh', async (req, reply) => { const body = z.object({ refreshToken: z.string().min(30) }).parse(req.body); const session = await prisma.session.findUnique({ where: { refreshTokenHash: tokenHash(body.refreshToken) } }); if (!session || session.revokedAt || session.expiresAt <= new Date())
+        return reply.code(401).send({ code: 'INVALID_REFRESH_TOKEN' }); const roles = await rolesFor(session.userId, session.organisationId); const next = randomToken(48); await prisma.session.update({ where: { id: session.id }, data: { refreshTokenHash: tokenHash(next), lastUsedAt: new Date() } }); const accessToken = await signAccessSession({ sub: session.userId, organisationId: session.organisationId, roles, sessionId: session.id }, config.jwtSecret); return { accessToken, refreshToken: next, expiresIn: 900 }; });
+    app.post('/v1/auth/logout', async (req, reply) => { const ctx = await context(req); await prisma.session.update({ where: { id: ctx.sessionId }, data: { revokedAt: new Date(), revokeReason: 'USER_LOGOUT' } }); return reply.code(204).send(); });
+    app.post('/v1/auth/password/forgot', async (req) => { const body = z.object({ email }).parse(req.body); const user = await prisma.user.findUnique({ where: { email: body.email } }); let token; if (user) {
+        token = randomToken();
+        await prisma.$transaction(async (tx) => { await tx.userToken.create({ data: { userId: user.id, purpose: 'PASSWORD_RESET', tokenHash: tokenHash(token), expiresAt: new Date(Date.now() + 60 * 60 * 1000) } }); await tx.outboxEvent.create({ data: { type: 'PasswordResetRequested', correlationId: req.id, payload: { userId: user.id, email: user.email, resetTokenEncrypted: encryptSecret(token, config.tokenPepper) } } }); });
+    } return { accepted: true, ...(config.nodeEnv === 'production' || !token ? {} : { developmentResetToken: token }) }; });
+    app.post('/v1/auth/password/reset', async (req, reply) => { const body = z.object({ token: z.string(), password: z.string() }).parse(req.body); const record = await prisma.userToken.findFirst({ where: { tokenHash: tokenHash(body.token), purpose: 'PASSWORD_RESET', consumedAt: null, expiresAt: { gt: new Date() } } }); if (!record)
+        return reply.code(400).send({ code: 'INVALID_OR_EXPIRED_TOKEN' }); const passwordHash = await hashPassword(body.password); await prisma.$transaction([prisma.user.update({ where: { id: record.userId }, data: { passwordHash, failedLoginAttempts: 0, lockedUntil: null } }), prisma.userToken.update({ where: { id: record.id }, data: { consumedAt: new Date() } }), prisma.session.updateMany({ where: { userId: record.userId, revokedAt: null }, data: { revokedAt: new Date(), revokeReason: 'PASSWORD_RESET' } })]); return { reset: true }; });
+    app.get('/v1/me', async (req) => { const ctx = await context(req); const user = await prisma.user.findUniqueOrThrow({ where: { id: ctx.actorId }, select: { id: true, email: true, emailVerifiedAt: true, mfaEnabled: true, lastLoginAt: true } }); return { ...user, organisationId: ctx.organisationId, roles: ctx.roles }; });
+    app.post('/v1/me/mfa/enrol', async (req) => { const ctx = await context(req); const secret = generateTotpSecret(); await prisma.user.update({ where: { id: ctx.actorId }, data: { mfaSecretEncrypted: encryptSecret(secret, config.tokenPepper), mfaEnabled: false } }); const user = await prisma.user.findUniqueOrThrow({ where: { id: ctx.actorId } }); return { secret, otpauthUri: `otpauth://totp/AdGeco:${encodeURIComponent(user.email)}?secret=${secret}&issuer=AdGeco` }; });
+    app.post('/v1/me/mfa/confirm', async (req, reply) => { const ctx = await context(req); const body = z.object({ code: z.string().regex(/^\d{6}$/) }).parse(req.body); const user = await prisma.user.findUniqueOrThrow({ where: { id: ctx.actorId } }); if (!user.mfaSecretEncrypted || !verifyTotp(decryptSecret(user.mfaSecretEncrypted, config.tokenPepper), body.code))
+        return reply.code(400).send({ code: 'INVALID_MFA_CODE' }); await prisma.user.update({ where: { id: user.id }, data: { mfaEnabled: true } }); return { enabled: true }; });
+    app.delete('/v1/me/mfa', async (req, reply) => { const ctx = await context(req); const body = z.object({ password: z.string(), code: z.string().regex(/^\d{6}$/) }).parse(req.body); const user = await prisma.user.findUniqueOrThrow({ where: { id: ctx.actorId } }); if (!await verifyPassword(body.password, user.passwordHash) || !user.mfaSecretEncrypted || !verifyTotp(decryptSecret(user.mfaSecretEncrypted, config.tokenPepper), body.code))
+        return reply.code(401).send({ code: 'REAUTHENTICATION_FAILED' }); await prisma.user.update({ where: { id: user.id }, data: { mfaEnabled: false, mfaSecretEncrypted: null } }); return { enabled: false }; });
+};

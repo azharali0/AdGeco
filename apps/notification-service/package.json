@@ -1,0 +1,11 @@
+{
+  "name": "@adgeco/notification-service",
+  "version": "0.40.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node --check src/notifications.mjs && node --check src/handler.mjs && node --check src/server.mjs",
+    "typecheck": "node --check src/notifications.mjs && node --check src/handler.mjs && node --check src/server.mjs",
+    "start": "node src/server.mjs"
+  }
+}

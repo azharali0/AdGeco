@@ -1,0 +1,1 @@
+{"name":"@adgeco/platform-runtime","version":"0.70.0","private":true,"type":"module","exports":"./src/index.mjs","scripts":{"build":"node --check src/index.mjs","typecheck":"node --check src/index.mjs"}}

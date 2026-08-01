@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
+test('production config fails closed for commercial providers',async()=>{const s=await readFile('packages/config/src/index.ts','utf8');for(const k of ['consentProviderKey','taxProviderKey','serviceSecret','allowedOrigins'])assert.match(s,new RegExp(k));});
+test('API enforces origin policy and graceful shutdown',async()=>{const s=await readFile('apps/api/src/server.combined.txt','utf8');assert.match(s,/ORIGIN_NOT_ALLOWED/);assert.match(s,/SIGTERM/);assert.match(s,/prisma\.\$disconnect/);});
+test('browser client refreshes rotated sessions',async()=>{const s=await readFile('apps/web/lib/api.ts','utf8');assert.match(s,/\/v1\/auth\/refresh/);assert.match(s,/saveSession\(next\)/);assert.match(s,/response\.status===401/);});

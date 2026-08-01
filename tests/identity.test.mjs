@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const root=path.resolve(import.meta.dirname,'..');
+const read=(p)=>fs.readFileSync(path.join(root,p),'utf8');
+const schema=read('packages/database/prisma/schema.prisma');
+for(const model of ['UserToken','OrganisationInvitation','ServiceAccount','ApiCredential']) if(!schema.includes(`model ${model}`)) throw new Error(`Missing ${model}`);
+const auth=read('packages/auth/src/index.ts');
+for(const capability of ['hashPassword','verifyPassword','generateTotpSecret','verifyTotp','encryptSecret','assertTenant','authorise']) if(!auth.includes(capability)) throw new Error(`Missing auth capability ${capability}`);
+const server=read('apps/api/src/server.combined.txt');
+for(const route of ['/v1/auth/register','/v1/auth/email/verify','/v1/auth/login','/v1/auth/refresh','/v1/auth/password/reset','/v1/me/mfa/enrol','/v1/organisations/:organisationId/invitations','/v1/organisations/:organisationId/service-accounts','/v1/organisations/:organisationId/api-credentials']) if(!server.includes(route)) throw new Error(`Missing route ${route}`);
+for(const control of ['SESSION_REVOKED','EMAIL_NOT_VERIFIED','INVALID_MFA_CODE','TENANT_BOUNDARY_VIOLATION']) if(!server.includes(control)) throw new Error(`Missing security control ${control}`);
+console.log('ADG-005 identity runtime structural verification passed');

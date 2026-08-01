@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {evaluateConsent,calculateTax,paceBudget,frequencyCapDecision,brandSafetyDecision,payoutTransition,reconciliationDecision,stableIdempotencyKey} from '../../packages/platform-runtime/src/index.mjs';
+test('regulated personalised advertising requires consent',()=>assert.equal(evaluateConsent({jurisdiction:'GB',personalisedAds:true}).allowed,false));
+test('tax uses integer minor units',()=>assert.deepEqual(calculateTax({amountMinor:10000,rateBasisPoints:2000}),{netMinor:10000,taxMinor:2000,grossMinor:12000}));
+test('pacing prevents overspend',()=>assert.equal(paceBudget({budgetMinor:10000,spentMinor:6000,reservedMinor:4000,elapsedRatio:.8}).eligible,false));
+test('frequency cap resets expired window',()=>assert.equal(frequencyCapDecision({exposures:4,limit:3,windowStartedAt:'2020-01-01T00:00:00Z',windowSeconds:60}).allowed,true));
+test('brand safety blocks configured category',()=>assert.equal(brandSafetyDecision({categories:['violence'],blockedCategories:['violence']}).allowed,false));
+test('payout state machine forbids invalid movement',()=>assert.throws(()=>payoutTransition('SUCCEEDED','RETRY')));
+test('reconciliation identifies exception',()=>assert.equal(reconciliationDecision({internalMinor:1000,providerMinor:980}).status,'EXCEPTION'));
+test('idempotency keys are stable',()=>assert.equal(stableIdempotencyKey('payout',{b:2,a:1}),stableIdempotencyKey('payout',{a:1,b:2})));

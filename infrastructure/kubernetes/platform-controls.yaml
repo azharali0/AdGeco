@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: adgeco-runtime, namespace: adgeco}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata: {name: domain-services, namespace: adgeco}
+spec: {maxUnavailable: 1, selector: {matchExpressions: [{key: app, operator: Exists}]}}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: allow-api-to-domain-services, namespace: adgeco}
+spec:
+  podSelector: {matchLabels: {app: api}}
+  policyTypes: [Egress]
+  egress:
+    - to: [{namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: adgeco}}}]
+      ports: [{protocol: TCP, port: 3010}, {protocol: TCP, port: 3011}, {protocol: TCP, port: 3012}, {protocol: TCP, port: 3013}, {protocol: TCP, port: 3014}]

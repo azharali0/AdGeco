@@ -1,0 +1,2 @@
+import {access,readFile} from 'node:fs/promises';
+const required=['apps/worker/src/main.ts','packages/domain/src/index.mjs','packages/email/src/index.ts','infrastructure/kubernetes/production.yaml','infrastructure/terraform/main.tf','tests/behavioral/domain.test.mjs'];for(const path of required)await access(new URL(`../${path}`,import.meta.url));const pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url)));if(!pkg.scripts.test.includes('node --test'))throw new Error('Behavioural test runner missing');console.log('remediation-audit-ok');

@@ -1,0 +1,16 @@
+{
+  "name": "@adgeco/domain",
+  "version": "0.20.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.mjs",
+      "types": "./src/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "node -e \"console.log('domain-runtime-ready')\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

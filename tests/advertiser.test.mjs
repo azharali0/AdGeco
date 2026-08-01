@@ -1,0 +1,5 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+const schema=fs.readFileSync('packages/database/prisma/schema.prisma','utf8');const server=fs.readFileSync('apps/api/src/server.combined.txt','utf8');
+for(const model of ['AdvertiserProfile','AdvertiserBillingProfile','AdvertiserWallet','WalletTransaction','Campaign','LineItem','Creative','CreativeReview']) assert.match(schema,new RegExp(`model ${model}\\s*\\{`));
+for(const route of ['/v1/advertisers/:organisationId/profile','/v1/advertisers/:organisationId/billing-profile','/v1/advertisers/:organisationId/wallet/fund','/v1/advertisers/:organisationId/campaigns','/v1/campaigns/:campaignId/line-items','/v1/advertisers/:organisationId/creatives','/v1/admin/creatives/:creativeId/review','/v1/admin/campaigns/:campaignId/decision','/v1/advertisers/:organisationId/dashboard']) assert.ok(server.includes(route));
+assert.ok(server.includes('INSUFFICIENT_WALLET_BALANCE'));assert.ok(server.includes('idempotencyKey'));console.log('ADG-007 advertiser verification passed');

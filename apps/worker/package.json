@@ -1,0 +1,23 @@
+{
+  "name": "@adgeco/worker",
+  "version": "0.20.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/main.js",
+    "dev": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@adgeco/database": "workspace:*",
+    "@adgeco/config": "workspace:*",
+    "@adgeco/observability": "workspace:*",
+    "@adgeco/email": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "@types/node": "^22.15.32"
+  }
+}

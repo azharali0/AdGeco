@@ -1,0 +1,5 @@
+
+> adgeco@1.1.0-rc.1 validate:production
+> node tooling/production-validation.mjs
+
+{"passed":3,"available":0,"blocked":10,"failed":0}

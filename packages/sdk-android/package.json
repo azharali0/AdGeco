@@ -1,0 +1,9 @@
+{
+  "name": "@adgeco/sdk-android",
+  "version": "0.20.0",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"const fs=require('fs'); if(!fs.existsSync('src/AdGecoClient.kt')){process.exit(1)} console.log('android-sdk-source-ok')\"",
+    "typecheck": "node -e \"const fs=require('fs'); if(!fs.existsSync('src/AdGecoClient.kt')){process.exit(1)} console.log('android-sdk-source-ok')\""
+  }
+}

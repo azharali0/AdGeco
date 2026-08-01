@@ -1,0 +1,7 @@
+global: {scrape_interval: 15s}
+scrape_configs:
+  - job_name: adgeco-api
+    metrics_path: /metrics
+    static_configs: [{targets: ['api.adgeco.svc.cluster.local:80']}]
+  - job_name: adgeco-services
+    static_configs: [{targets: ['exchange:3010','measurement:3011','fraud:3012','ledger:3013','settlement:3014']}]

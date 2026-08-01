@@ -1,0 +1,411 @@
+
+> adgeco@1.2.0-launch-candidate.1 proof:converged
+> npm run proof:final && npm run convergence:verify
+
+
+> adgeco@1.2.0-launch-candidate.1 proof:final
+> npm run proof:local && npm run final:verify
+
+
+> adgeco@1.2.0-launch-candidate.1 proof:local
+> npm run db:validate && npm run remediation:verify && npm run rrp:verify && npm run rrp2:verify && npm run rrp4:verify && npm run rrp6:verify && npm run rrp7:verify && npm run rrp8:verify
+
+
+> adgeco@1.2.0-launch-candidate.1 db:validate
+> node tooling/validate-migrations.mjs
+
+migration-ok:20260718235959_adgeco_v1_baseline
+
+> adgeco@1.2.0-launch-candidate.1 remediation:verify
+> node tooling/remediation-audit.mjs
+
+remediation-audit-ok
+
+> adgeco@1.2.0-launch-candidate.1 rrp:verify
+> node tooling/rrp-audit.mjs
+
+ADG-RRP-1 repository audit passed
+
+> adgeco@1.2.0-launch-candidate.1 rrp2:verify
+> node tooling/rrp2-audit.mjs && node --test tests/behavioral/rrp2-runtime.test.mjs tests/security/tenant-certification.test.mjs && node --test tests/load/exchange-load.test.mjs
+
+{"status":"pass","requiredArtifacts":15,"serverBytes":95369}
+TAP version 13
+# Subtest: OpenRTB converts and returns deterministic winner
+ok 1 - OpenRTB converts and returns deterministic winner
+  ---
+  duration_ms: 0.857236
+  type: 'test'
+  ...
+# Subtest: measurement ledger is idempotent and rejects conflicts
+ok 2 - measurement ledger is idempotent and rejects conflicts
+  ---
+  duration_ms: 1.567413
+  type: 'test'
+  ...
+# Subtest: viewability and attribution apply real thresholds
+ok 3 - viewability and attribution apply real thresholds
+  ---
+  duration_ms: 0.239006
+  type: 'test'
+  ...
+# Subtest: fraud rules block obvious bot and verify supply chain
+ok 4 - fraud rules block obvious bot and verify supply chain
+  ---
+  duration_ms: 0.170113
+  type: 'test'
+  ...
+# Subtest: ledger enforces balance and supports reversal
+ok 5 - ledger enforces balance and supports reversal
+  ---
+  duration_ms: 0.506454
+  type: 'test'
+  ...
+# Subtest: settlement withholds and retries safely
+ok 6 - settlement withholds and retries safely
+  ---
+  duration_ms: 0.559203
+  type: 'test'
+  ...
+# Subtest: reporting exports and notification templates work
+ok 7 - reporting exports and notification templates work
+  ---
+  duration_ms: 0.327598
+  type: 'test'
+  ...
+# Subtest: runtime core enforces tenant and idempotency
+ok 8 - runtime core enforces tenant and idempotency
+  ---
+  duration_ms: 0.209071
+  type: 'test'
+  ...
+# Subtest: circuit breaker opens after repeated failures
+ok 9 - circuit breaker opens after repeated failures
+  ---
+  duration_ms: 0.645671
+  type: 'test'
+  ...
+# Subtest: tenant access denies every foreign resource
+ok 10 - tenant access denies every foreign resource
+  ---
+  duration_ms: 0.772069
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 53.872865
+TAP version 13
+# {"decisions":50000,"elapsedMs":43,"perSecond":1176192}
+# Subtest: local deterministic auction sustains 50k decisions
+ok 1 - local deterministic auction sustains 50k decisions
+  ---
+  duration_ms: 44.412454
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 90.863011
+
+> adgeco@1.2.0-launch-candidate.1 rrp4:verify
+> node tooling/rrp4-audit.mjs && node --test tests/behavioral/rrp4-cutover.test.mjs
+
+ADG-RRP-4 audit passed
+TAP version 13
+# Subtest: dedicated financial runtimes are durable
+ok 1 - dedicated financial runtimes are durable
+  ---
+  duration_ms: 0.921732
+  type: 'test'
+  ...
+# Subtest: measurement rejects idempotency conflicts
+ok 2 - measurement rejects idempotency conflicts
+  ---
+  duration_ms: 0.190153
+  type: 'test'
+  ...
+# Subtest: exchange uses serializable transaction and atomic reservation
+ok 3 - exchange uses serializable transaction and atomic reservation
+  ---
+  duration_ms: 0.708755
+  type: 'test'
+  ...
+# Subtest: services require internal identity
+ok 4 - services require internal identity
+  ---
+  duration_ms: 0.290943
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.892009
+
+> adgeco@1.2.0-launch-candidate.1 rrp6:verify
+> node tooling/rrp6-audit.mjs && node --test tests/behavioral/rrp6-launch-nearness.test.mjs
+
+ADG-RRP-6 launch-nearness audit passed
+TAP version 13
+# Subtest: outbox uses database leasing for safe horizontal workers
+ok 1 - outbox uses database leasing for safe horizontal workers
+  ---
+  duration_ms: 0.596037
+  type: 'test'
+  ...
+# Subtest: identity lifecycle emits encrypted one-time links
+ok 2 - identity lifecycle emits encrypted one-time links
+  ---
+  duration_ms: 0.179116
+  type: 'test'
+  ...
+# Subtest: launch deployment includes web, migration, ingress and autoscaling
+ok 3 - launch deployment includes web, migration, ingress and autoscaling
+  ---
+  duration_ms: 0.106248
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 44.857115
+
+> adgeco@1.2.0-launch-candidate.1 rrp7:verify
+> node tooling/rrp7-audit.mjs && npm run test:remediation
+
+ADG-RRP-7 remediation audit passed
+
+> adgeco@1.2.0-launch-candidate.1 test:remediation
+> node --test tests/remediation/*.test.mjs
+
+TAP version 13
+# Subtest: production config fails closed for commercial providers
+ok 1 - production config fails closed for commercial providers
+  ---
+  duration_ms: 3.629513
+  type: 'test'
+  ...
+# Subtest: API enforces origin policy and graceful shutdown
+ok 2 - API enforces origin policy and graceful shutdown
+  ---
+  duration_ms: 2.481534
+  type: 'test'
+  ...
+# Subtest: browser client refreshes rotated sessions
+ok 3 - browser client refreshes rotated sessions
+  ---
+  duration_ms: 1.010884
+  type: 'test'
+  ...
+# Subtest: regulated personalised advertising requires consent
+ok 4 - regulated personalised advertising requires consent
+  ---
+  duration_ms: 0.700292
+  type: 'test'
+  ...
+# Subtest: tax uses integer minor units
+ok 5 - tax uses integer minor units
+  ---
+  duration_ms: 0.581276
+  type: 'test'
+  ...
+# Subtest: pacing prevents overspend
+ok 6 - pacing prevents overspend
+  ---
+  duration_ms: 0.313607
+  type: 'test'
+  ...
+# Subtest: frequency cap resets expired window
+ok 7 - frequency cap resets expired window
+  ---
+  duration_ms: 0.284143
+  type: 'test'
+  ...
+# Subtest: brand safety blocks configured category
+ok 8 - brand safety blocks configured category
+  ---
+  duration_ms: 0.156362
+  type: 'test'
+  ...
+# Subtest: payout state machine forbids invalid movement
+ok 9 - payout state machine forbids invalid movement
+  ---
+  duration_ms: 0.209001
+  type: 'test'
+  ...
+# Subtest: reconciliation identifies exception
+ok 10 - reconciliation identifies exception
+  ---
+  duration_ms: 0.132477
+  type: 'test'
+  ...
+# Subtest: idempotency keys are stable
+ok 11 - idempotency keys are stable
+  ---
+  duration_ms: 0.404412
+  type: 'test'
+  ...
+# Subtest: repository defect register has no open repository defects
+ok 12 - repository defect register has no open repository defects
+  ---
+  duration_ms: 0.806661
+  type: 'test'
+  ...
+# Subtest: canonical runtime topology converges on all core workloads
+ok 13 - canonical runtime topology converges on all core workloads
+  ---
+  duration_ms: 0.304033
+  type: 'test'
+  ...
+# Subtest: modern UI policy remains globally enforced
+ok 14 - modern UI policy remains globally enforced
+  ---
+  duration_ms: 0.906539
+  type: 'test'
+  ...
+# Subtest: provider client requires idempotency for mutations
+ok 15 - provider client requires idempotency for mutations
+  ---
+  duration_ms: 0.928342
+  type: 'test'
+  ...
+# Subtest: provider client retries transient failures but not permanent failures
+ok 16 - provider client retries transient failures but not permanent failures
+  ---
+  duration_ms: 166.518125
+  type: 'test'
+  ...
+# Subtest: signed webhooks enforce timestamp, signature and replay protection
+ok 17 - signed webhooks enforce timestamp, signature and replay protection
+  ---
+  duration_ms: 0.903204
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 258.781549
+
+> adgeco@1.2.0-launch-candidate.1 rrp8:verify
+> node tooling/rrp8-audit.mjs && node --test tests/remediation/rrp8-provider-runtime.test.mjs
+
+ADG-RRP-8 repository remediation audit passed
+TAP version 13
+# Subtest: provider client requires idempotency for mutations
+ok 1 - provider client requires idempotency for mutations
+  ---
+  duration_ms: 0.918978
+  type: 'test'
+  ...
+# Subtest: provider client retries transient failures but not permanent failures
+ok 2 - provider client retries transient failures but not permanent failures
+  ---
+  duration_ms: 165.96365
+  type: 'test'
+  ...
+# Subtest: signed webhooks enforce timestamp, signature and replay protection
+ok 3 - signed webhooks enforce timestamp, signature and replay protection
+  ---
+  duration_ms: 0.686291
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 210.661929
+
+> adgeco@1.2.0-launch-candidate.1 final:verify
+> node tooling/final-engineering-audit.mjs && node --test tests/remediation/final-engineering.test.mjs
+
+{"status":"pass","files":269,"sourceFiles":94,"unresolvedMarkers":0,"version":"0.90.0"}
+TAP version 13
+# Subtest: production config fails closed for commercial providers
+ok 1 - production config fails closed for commercial providers
+  ---
+  duration_ms: 3.462584
+  type: 'test'
+  ...
+# Subtest: API enforces origin policy and graceful shutdown
+ok 2 - API enforces origin policy and graceful shutdown
+  ---
+  duration_ms: 1.325973
+  type: 'test'
+  ...
+# Subtest: browser client refreshes rotated sessions
+ok 3 - browser client refreshes rotated sessions
+  ---
+  duration_ms: 1.057203
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45.245884
+
+> adgeco@1.2.0-launch-candidate.1 convergence:verify
+> node tooling/repository-convergence-audit.mjs && node --test tests/remediation/repository-convergence.test.mjs
+
+{"status":"pass","repositoryFiles":269,"sourceAndConfigFiles":174,"openRepositoryDefects":0,"version":"1.2.0-launch-candidate.1"}
+TAP version 13
+# Subtest: repository defect register has no open repository defects
+ok 1 - repository defect register has no open repository defects
+  ---
+  duration_ms: 0.742886
+  type: 'test'
+  ...
+# Subtest: canonical runtime topology converges on all core workloads
+ok 2 - canonical runtime topology converges on all core workloads
+  ---
+  duration_ms: 0.288579
+  type: 'test'
+  ...
+# Subtest: modern UI policy remains globally enforced
+ok 3 - modern UI policy remains globally enforced
+  ---
+  duration_ms: 0.84659
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.708085

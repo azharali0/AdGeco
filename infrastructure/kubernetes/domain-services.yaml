@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: exchange-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: exchange-service}}
+  template:
+    metadata: {labels: {app: exchange-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: exchange-service
+          image: ghcr.io/adgeco/exchange-service:${IMAGE_TAG}
+          ports: [{containerPort: 3010}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: exchange, namespace: adgeco}
+spec: {selector: {app: exchange-service}, ports: [{port: 3010, targetPort: 3010}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: measurement-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: measurement-service}}
+  template:
+    metadata: {labels: {app: measurement-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: measurement-service
+          image: ghcr.io/adgeco/measurement-service:${IMAGE_TAG}
+          ports: [{containerPort: 3011}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: measurement, namespace: adgeco}
+spec: {selector: {app: measurement-service}, ports: [{port: 3011, targetPort: 3011}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: fraud-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: fraud-service}}
+  template:
+    metadata: {labels: {app: fraud-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: fraud-service
+          image: ghcr.io/adgeco/fraud-service:${IMAGE_TAG}
+          ports: [{containerPort: 3012}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: fraud, namespace: adgeco}
+spec: {selector: {app: fraud-service}, ports: [{port: 3012, targetPort: 3012}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: ledger-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: ledger-service}}
+  template:
+    metadata: {labels: {app: ledger-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: ledger-service
+          image: ghcr.io/adgeco/ledger-service:${IMAGE_TAG}
+          ports: [{containerPort: 3013}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: ledger, namespace: adgeco}
+spec: {selector: {app: ledger-service}, ports: [{port: 3013, targetPort: 3013}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: settlement-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: settlement-service}}
+  template:
+    metadata: {labels: {app: settlement-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: settlement-service
+          image: ghcr.io/adgeco/settlement-service:${IMAGE_TAG}
+          ports: [{containerPort: 3014}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: settlement, namespace: adgeco}
+spec: {selector: {app: settlement-service}, ports: [{port: 3014, targetPort: 3014}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: reporting-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: reporting-service}}
+  template:
+    metadata: {labels: {app: reporting-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: reporting-service
+          image: ghcr.io/adgeco/reporting-service:${IMAGE_TAG}
+          ports: [{containerPort: 3015}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: reporting, namespace: adgeco}
+spec: {selector: {app: reporting-service}, ports: [{port: 3015, targetPort: 3015}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: notification-service, namespace: adgeco}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: notification-service}}
+  template:
+    metadata: {labels: {app: notification-service}}
+    spec:
+      serviceAccountName: adgeco-runtime
+      containers:
+        - name: notification-service
+          image: ghcr.io/adgeco/notification-service:${IMAGE_TAG}
+          ports: [{containerPort: 3016}]
+          envFrom: [{secretRef: {name: adgeco-runtime}}]
+          resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: '1', memory: 512Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: notification, namespace: adgeco}
+spec: {selector: {app: notification-service}, ports: [{port: 3016, targetPort: 3016}]}
+---

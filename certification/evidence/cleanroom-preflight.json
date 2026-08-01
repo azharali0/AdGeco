@@ -1,0 +1,10 @@
+
+> adgeco@0.80.0 cleanroom:preflight
+> node tooling/clean-room-preflight.mjs
+
+{
+  "status": "blocked",
+  "failures": [
+    "MISSING_PNPM_LOCKFILE"
+  ]
+}

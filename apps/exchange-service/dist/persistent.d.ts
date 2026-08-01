@@ -1,0 +1,81 @@
+import { Prisma, type PrismaClient } from '@prisma/client';
+export declare function executePersistentAuction(prisma: PrismaClient, input: {
+    requestKey: string;
+    placementId: string;
+    sdkRegistrationId: string;
+    countryCode?: string;
+    language?: string;
+    deviceType: string;
+    channel: string;
+    userKeyHash?: string;
+    contextualData?: Record<string, unknown>;
+}): Promise<({
+    decision: {
+        id: string;
+        status: import("@prisma/client").$Enums.AuctionDecisionStatus;
+        auctionId: string;
+        advertiserOrganisationId: string | null;
+        campaignId: string | null;
+        lineItemId: string | null;
+        creativeId: string | null;
+        winningBidCpm: Prisma.Decimal | null;
+        clearingPriceCpm: Prisma.Decimal | null;
+        budgetReservationId: string | null;
+        noFillReason: string | null;
+        evidence: Prisma.JsonValue;
+        decidedAt: Date;
+    } | null;
+    delivery: {
+        id: string;
+        status: import("@prisma/client").$Enums.DeliveryStatus;
+        completedAt: Date | null;
+        auctionId: string;
+        creativeId: string;
+        expiresAt: Date;
+        decisionId: string;
+        deliveryTokenHash: string;
+        assetUrl: string;
+        resolvedAssetUrl: string | null;
+        clickThroughUrl: string;
+        issuedAt: Date;
+        firstRenderedAt: Date | null;
+        impressionQualifiedAt: Date | null;
+        clickedAt: Date | null;
+        failedAt: Date | null;
+        failureCode: string | null;
+        failureDetail: string | null;
+    } | null;
+} & {
+    id: string;
+    status: import("@prisma/client").$Enums.AuctionStatus;
+    adRequestId: string;
+    currency: string;
+    floorCpm: Prisma.Decimal;
+    eligibleBidCount: number;
+    completedAt: Date | null;
+    createdAt: Date;
+}) | {
+    decision: {
+        id: string;
+        status: import("@prisma/client").$Enums.AuctionDecisionStatus;
+        auctionId: string;
+        advertiserOrganisationId: string | null;
+        campaignId: string | null;
+        lineItemId: string | null;
+        creativeId: string | null;
+        winningBidCpm: Prisma.Decimal | null;
+        clearingPriceCpm: Prisma.Decimal | null;
+        budgetReservationId: string | null;
+        noFillReason: string | null;
+        evidence: Prisma.JsonValue;
+        decidedAt: Date;
+    };
+    id: string;
+    status: import("@prisma/client").$Enums.AuctionStatus;
+    adRequestId: string;
+    currency: string;
+    floorCpm: Prisma.Decimal;
+    eligibleBidCount: number;
+    completedAt: Date | null;
+    createdAt: Date;
+}>;

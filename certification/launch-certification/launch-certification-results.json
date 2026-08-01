@@ -1,0 +1,296 @@
+{
+  "programme": "ADG-LAUNCH-CERTIFICATION-1",
+  "release": "1.2.0-launch-candidate.1",
+  "generatedAt": "2026-07-27T10:05:57.725Z",
+  "decision": "CONDITIONAL-NO-GO",
+  "summary": {
+    "PASS": 5,
+    "AVAILABLE": 0,
+    "BLOCKED": 23,
+    "FAIL": 0
+  },
+  "gates": [
+    {
+      "id": "repository-proof",
+      "domain": "repository",
+      "status": "PASS",
+      "command": "npm run proof:converged",
+      "exitCode": 0,
+      "startedAt": "2026-07-27T10:05:36.680Z",
+      "evidence": "certification/launch-certification/evidence/repository-proof.log"
+    },
+    {
+      "id": "native-sdk-compiler-proof",
+      "domain": "sdk",
+      "status": "PASS",
+      "command": "bash tooling/verify-native-sdks.sh",
+      "exitCode": 0,
+      "startedAt": "2026-07-27T10:05:38.981Z",
+      "evidence": "certification/launch-certification/evidence/native-sdk-compiler-proof.log"
+    },
+    {
+      "id": "source-sbom",
+      "domain": "supply-chain",
+      "status": "PASS",
+      "command": "node tooling/generate-source-sbom.mjs",
+      "exitCode": 0,
+      "startedAt": "2026-07-27T10:05:42.626Z",
+      "evidence": "certification/launch-certification/evidence/source-sbom.log"
+    },
+    {
+      "id": "migration-static-integrity",
+      "domain": "database",
+      "status": "PASS",
+      "command": "node tooling/validate-migrations.mjs",
+      "exitCode": 0,
+      "startedAt": "2026-07-27T10:05:42.658Z",
+      "evidence": "certification/launch-certification/evidence/migration-static-integrity.log"
+    },
+    {
+      "id": "deployment-static-integrity",
+      "domain": "infrastructure",
+      "status": "PASS",
+      "command": "node tooling/launch-static-certification.mjs",
+      "exitCode": 0,
+      "startedAt": "2026-07-27T10:05:42.681Z",
+      "evidence": "certification/launch-certification/evidence/deployment-static-integrity.log"
+    },
+    {
+      "id": "canonical-lockfile",
+      "domain": "build",
+      "status": "BLOCKED",
+      "reason": "pnpm-lock.yaml is absent and registry DNS is unavailable.",
+      "requiredEvidence": [
+        "pnpm-lock.yaml",
+        "clean-install.log"
+      ]
+    },
+    {
+      "id": "internet-clean-room",
+      "domain": "build",
+      "status": "BLOCKED",
+      "reason": "The execution environment cannot resolve registry.npmjs.org.",
+      "requiredEvidence": [
+        "registry-connectivity.log"
+      ]
+    },
+    {
+      "id": "frozen-install-and-workspace-build",
+      "domain": "build",
+      "status": "BLOCKED",
+      "reason": "Requires registry access and the committed canonical lockfile.",
+      "requiredEvidence": [
+        "frozen-install.log",
+        "workspace-build.log",
+        "typecheck.log",
+        "test.log"
+      ]
+    },
+    {
+      "id": "container-build-sign-scan",
+      "domain": "containers",
+      "status": "BLOCKED",
+      "reason": "Docker, cosign, Syft and Trivy are unavailable.",
+      "requiredEvidence": [
+        "image-digests.json",
+        "cosign-verify.log",
+        "image-sbom.spdx.json",
+        "trivy-report.json"
+      ]
+    },
+    {
+      "id": "postgres-runtime-certification",
+      "domain": "database",
+      "status": "BLOCKED",
+      "reason": "A production-equivalent PostgreSQL endpoint and psql are unavailable.",
+      "requiredEvidence": [
+        "migration-run.log",
+        "concurrency-report.json",
+        "rollback-report.json",
+        "backup-restore-report.json"
+      ]
+    },
+    {
+      "id": "kubernetes-multiregion-certification",
+      "domain": "infrastructure",
+      "status": "BLOCKED",
+      "reason": "kubectl, cluster credentials and multi-region targets are unavailable.",
+      "requiredEvidence": [
+        "rollout-report.json",
+        "autoscaling-report.json",
+        "failover-report.json",
+        "dr-report.json"
+      ]
+    },
+    {
+      "id": "provider-payments",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: PAYMENT_PROVIDER_URL, PAYMENT_PROVIDER_KEY",
+      "requiredEvidence": [
+        "payments-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-payouts",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: PAYOUT_PROVIDER_URL, PAYOUT_PROVIDER_KEY",
+      "requiredEvidence": [
+        "payouts-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-kyb",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: VERIFICATION_PROVIDER_URL, VERIFICATION_PROVIDER_KEY",
+      "requiredEvidence": [
+        "kyb-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-consent",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: CONSENT_PROVIDER_URL, CONSENT_PROVIDER_KEY",
+      "requiredEvidence": [
+        "consent-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-tax",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: TAX_PROVIDER_URL, TAX_PROVIDER_KEY",
+      "requiredEvidence": [
+        "tax-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-email",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: EMAIL_PROVIDER_URL, EMAIL_PROVIDER_KEY",
+      "requiredEvidence": [
+        "email-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-storage",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: OBJECT_STORAGE_UPLOAD_URL, OBJECT_STORAGE_PUBLIC_URL",
+      "requiredEvidence": [
+        "storage-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "provider-cdn",
+      "domain": "providers",
+      "status": "BLOCKED",
+      "reason": "Missing required environment variables: CDN_DISTRIBUTION_ID, CDN_INVALIDATION_ROLE",
+      "requiredEvidence": [
+        "cdn-commissioning-report.json",
+        "webhook-evidence.log"
+      ]
+    },
+    {
+      "id": "browser-e2e",
+      "domain": "experience",
+      "status": "BLOCKED",
+      "reason": "A deployed browser test environment is unavailable.",
+      "requiredEvidence": [
+        "playwright-report/index.html"
+      ]
+    },
+    {
+      "id": "android-real-device",
+      "domain": "sdk",
+      "status": "BLOCKED",
+      "reason": "ANDROID_SERIAL is not configured.",
+      "requiredEvidence": [
+        "android-device-report.xml"
+      ]
+    },
+    {
+      "id": "ios-real-device",
+      "domain": "sdk",
+      "status": "BLOCKED",
+      "reason": "IOS_DEVICE_UDID is not configured.",
+      "requiredEvidence": [
+        "ios-device-report.xcresult"
+      ]
+    },
+    {
+      "id": "unity-runtime",
+      "domain": "sdk",
+      "status": "BLOCKED",
+      "reason": "UNITY_EDITOR_PATH is not configured.",
+      "requiredEvidence": [
+        "unity-test-results.xml"
+      ]
+    },
+    {
+      "id": "independent-security-certification",
+      "domain": "security",
+      "status": "BLOCKED",
+      "reason": "Independent penetration testing and internet-backed vulnerability databases are unavailable.",
+      "requiredEvidence": [
+        "penetration-test-report.pdf",
+        "dependency-audit.json",
+        "container-vulnerability-report.json"
+      ]
+    },
+    {
+      "id": "load-stress-soak",
+      "domain": "performance",
+      "status": "BLOCKED",
+      "reason": "A deployed production-like environment and traffic generators are unavailable.",
+      "requiredEvidence": [
+        "load-report.json",
+        "stress-report.json",
+        "soak-report.json"
+      ]
+    },
+    {
+      "id": "backup-restore-failover-dr",
+      "domain": "resilience",
+      "status": "BLOCKED",
+      "reason": "Managed database, object storage and multi-region infrastructure are unavailable.",
+      "requiredEvidence": [
+        "backup-restore-report.json",
+        "failover-report.json",
+        "disaster-recovery-report.json"
+      ]
+    },
+    {
+      "id": "controlled-commercial-pilot",
+      "domain": "pilot",
+      "status": "BLOCKED",
+      "reason": "No live pilot publishers, advertisers, approved spend or provider accounts are connected.",
+      "requiredEvidence": [
+        "pilot-participants.json",
+        "campaign-delivery-report.json",
+        "pilot-reconciliation.json"
+      ]
+    },
+    {
+      "id": "financial-reconciliation",
+      "domain": "finance",
+      "status": "BLOCKED",
+      "reason": "Real spend, fees, tax, earnings, settlement and payout evidence is unavailable.",
+      "requiredEvidence": [
+        "financial-reconciliation.json",
+        "provider-settlement-statements/"
+      ]
+    }
+  ]
+}

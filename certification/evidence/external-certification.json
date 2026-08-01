@@ -1,0 +1,30 @@
+
+> adgeco@0.80.0 certify:external
+> node tooling/external-certification.mjs
+
+{
+  "status": "blocked",
+  "missing": [
+    "providers:PAYMENT_PROVIDER_URL",
+    "providers:PAYMENT_PROVIDER_KEY",
+    "providers:PAYMENT_WEBHOOK_SECRET",
+    "providers:PAYOUT_PROVIDER_URL",
+    "providers:PAYOUT_PROVIDER_KEY",
+    "providers:VERIFICATION_PROVIDER_URL",
+    "providers:VERIFICATION_PROVIDER_KEY",
+    "providers:CONSENT_PROVIDER_URL",
+    "providers:CONSENT_PROVIDER_KEY",
+    "providers:TAX_PROVIDER_URL",
+    "providers:TAX_PROVIDER_KEY",
+    "providers:OBJECT_STORAGE_UPLOAD_URL",
+    "providers:OBJECT_STORAGE_PUBLIC_URL",
+    "production:DATABASE_URL",
+    "production:REDIS_URL",
+    "production:JWT_SECRET",
+    "production:TOKEN_PEPPER",
+    "production:ENCRYPTION_KEY",
+    "production:SERVICE_SECRET",
+    "production:PUBLIC_APP_URL",
+    "kubernetes:KUBECONFIG"
+  ]
+}

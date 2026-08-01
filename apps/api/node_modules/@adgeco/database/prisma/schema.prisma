@@ -1,0 +1,1446 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum OrganisationType {
+  PLATFORM
+  PUBLISHER
+  ADVERTISER
+  AGENCY
+}
+enum MembershipStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+  REMOVED
+}
+enum OutboxStatus {
+  PENDING
+  PUBLISHED
+  FAILED
+}
+enum TokenPurpose {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  MFA_ENROLMENT
+}
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REVOKED
+  EXPIRED
+}
+enum CredentialStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+enum PublisherStatus {
+  DRAFT
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  REJECTED
+}
+enum VerificationStatus {
+  NOT_STARTED
+  PENDING
+  APPROVED
+  REJECTED
+  NEEDS_INFORMATION
+}
+enum PropertyType {
+  WEBSITE
+  MOBILE_APP
+  MOBILE_GAME
+}
+enum PropertyStatus {
+  DRAFT
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  REJECTED
+}
+enum PlacementFormat {
+  BANNER
+  INTERSTITIAL
+  REWARDED_VIDEO
+  NATIVE
+  PLAYABLE
+  IN_FEED
+  SPLASH
+  FULLSCREEN
+  CUSTOM
+}
+enum PlacementStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  PAUSED
+  REJECTED
+}
+enum SdkPlatform {
+  WEB
+  ANDROID
+  IOS
+  UNITY
+}
+enum SdkRegistrationStatus {
+  REGISTERED
+  TESTING
+  CERTIFIED
+  ACTIVE
+  SUSPENDED
+  REVOKED
+}
+enum PayoutProfileStatus {
+  DRAFT
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+}
+
+enum AdvertiserStatus {
+  DRAFT
+  ACTIVE
+  SUSPENDED
+  REJECTED
+}
+enum BillingProfileStatus {
+  DRAFT
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+}
+enum WalletTransactionType {
+  FUNDING
+  RESERVATION
+  RELEASE
+  CHARGE
+  REFUND
+  ADJUSTMENT
+}
+enum WalletTransactionStatus {
+  PENDING
+  POSTED
+  FAILED
+  REVERSED
+}
+enum CampaignStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  ACTIVE
+  PAUSED
+  REJECTED
+  COMPLETED
+}
+enum LineItemStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+enum PacingMode {
+  EVEN
+  ACCELERATED
+  ASAP
+}
+enum CreativeType {
+  IMAGE
+  VIDEO
+  HTML
+  NATIVE
+}
+enum CreativeStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+enum CreativeReviewDecision {
+  APPROVED
+  REJECTED
+  NEEDS_CHANGES
+}
+enum AdRequestStatus {
+  RECEIVED
+  VALIDATED
+  AUCTIONED
+  NO_FILL
+  REJECTED
+}
+enum AuctionStatus {
+  CREATED
+  COMPLETED
+  NO_FILL
+  FAILED
+}
+enum AuctionDecisionStatus {
+  WINNER
+  NO_FILL
+}
+enum BudgetReservationStatus {
+  RESERVED
+  RELEASED
+  CHARGED
+  EXPIRED
+}
+enum DeliveryStatus {
+  ISSUED
+  ASSET_RESOLVED
+  RENDERED
+  IMPRESSION_QUALIFIED
+  CLICKED
+  COMPLETED
+  FAILED
+  EXPIRED
+}
+enum MeasurementEventType {
+  ASSET_RESOLVED
+  RENDER_STARTED
+  RENDER_SUCCEEDED
+  IMPRESSION
+  VIEWABLE
+  CLICK
+  VIDEO_START
+  VIDEO_FIRST_QUARTILE
+  VIDEO_MIDPOINT
+  VIDEO_THIRD_QUARTILE
+  VIDEO_COMPLETE
+  DELIVERY_FAILED
+}
+enum MeasurementValidationStatus {
+  ACCEPTED
+  REJECTED
+  DUPLICATE
+}
+enum PlaybackQuartile {
+  START
+  FIRST_QUARTILE
+  MIDPOINT
+  THIRD_QUARTILE
+  COMPLETE
+}
+enum FraudDecisionStatus {
+  CLEAR
+  REVIEW
+  BLOCKED
+}
+enum BillableEventStatus {
+  PENDING
+  QUALIFIED
+  REJECTED
+  POSTED
+  REVERSED
+}
+enum AttributionModel {
+  LAST_CLICK
+  LAST_VIEW
+}
+enum LedgerAccountType {
+  ASSET
+  LIABILITY
+  REVENUE
+  EXPENSE
+  EQUITY
+}
+enum LedgerEntryStatus {
+  POSTED
+  REVERSED
+}
+enum ReconciliationStatus {
+  PENDING
+  MATCHED
+  EXCEPTION
+  RESOLVED
+}
+enum PartnerType {
+  PUBLISHER
+  DSP
+  SSP
+  AGENCY
+  TECHNOLOGY
+  FINANCIAL
+  ANALYTICS
+}
+enum PartnerStatus {
+  DRAFT
+  SANDBOX
+  CERTIFICATION_PENDING
+  CERTIFIED
+  ACTIVE
+  SUSPENDED
+  REVOKED
+}
+enum WebhookStatus {
+  ACTIVE
+  PAUSED
+  REVOKED
+}
+enum WebhookDeliveryStatus {
+  PENDING
+  DELIVERED
+  RETRYING
+  FAILED
+}
+enum CertificationStatus {
+  DRAFT
+  IN_REVIEW
+  PASSED
+  FAILED
+  EXPIRED
+  REVOKED
+}
+enum SandboxScenarioStatus {
+  READY
+  RUNNING
+  COMPLETED
+  FAILED
+}
+enum SettlementBatchStatus {
+  DRAFT
+  SCHEDULED
+  PROCESSING
+  COMPLETED
+  PARTIAL_FAILED
+  FAILED
+  CANCELLED
+}
+enum SettlementItemStatus {
+  PENDING
+  LOCKED
+  PROCESSING
+  PAID
+  FAILED
+  RETURNED
+  CANCELLED
+}
+enum PayoutAttemptStatus {
+  PENDING
+  SUBMITTED
+  SUCCEEDED
+  FAILED
+  RETRY_SCHEDULED
+}
+enum StatementStatus {
+  DRAFT
+  ISSUED
+  VOID
+}
+enum InvestigationStatus {
+  OPEN
+  TRIAGE
+  INVESTIGATING
+  ACTION_REQUIRED
+  RESOLVED
+  CLOSED
+}
+enum SupportCaseStatus {
+  OPEN
+  PENDING_CUSTOMER
+  PENDING_INTERNAL
+  RESOLVED
+  CLOSED
+}
+enum IncidentSeverity {
+  P0
+  P1
+  P2
+  P3
+}
+enum IncidentStatus {
+  OPEN
+  INVESTIGATING
+  MITIGATED
+  RESOLVED
+  CLOSED
+}
+enum ServiceHealthStatus {
+  HEALTHY
+  DEGRADED
+  UNAVAILABLE
+  UNKNOWN
+}
+enum ScheduledReportStatus {
+  ACTIVE
+  PAUSED
+  FAILED
+}
+
+
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  passwordHash String
+  emailVerifiedAt DateTime?
+  mfaEnabled Boolean @default(false)
+  mfaSecretEncrypted String?
+  failedLoginAttempts Int @default(0)
+  lockedUntil DateTime?
+  lastLoginAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  memberships OrganisationMembership[]
+  sessions Session[]
+  tokens UserToken[]
+  invitationsSent OrganisationInvitation[] @relation("InvitationSender")
+  auditLogs AuditLog[] @relation("AuditActor")
+  creativeReviews CreativeReview[] @relation("CreativeReviewer")
+  investigationsAssigned TrustInvestigation[] @relation("InvestigationAssignee")
+  supportCasesAssigned SupportCase[] @relation("SupportAssignee")
+  incidentsOwned Incident[] @relation("IncidentOwner")
+}
+
+model Organisation {
+  id String @id @default(uuid())
+  type OrganisationType
+  name String
+  slug String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  memberships OrganisationMembership[]
+  invitations OrganisationInvitation[]
+  serviceAccounts ServiceAccount[]
+  apiCredentials ApiCredential[]
+  auditLogs AuditLog[]
+  outboxEvents OutboxEvent[]
+  publisherProfile PublisherProfile?
+  properties Property[]
+  inventoryPolicies InventoryPolicy[]
+  sdkRegistrations SdkRegistration[]
+  payoutProfile PublisherPayoutProfile?
+  advertiserProfile AdvertiserProfile?
+  advertiserBillingProfile AdvertiserBillingProfile?
+  advertiserWallet AdvertiserWallet?
+  campaigns Campaign[]
+  creatives Creative[]
+  adRequests AdRequest[] @relation("PublisherAdRequests")
+  exchangeDecisions AuctionDecision[] @relation("AdvertiserDecisions")
+  ledgerAccounts LedgerAccount[]
+  publisherEarnings PublisherEarning[] @relation("PublisherEarnings")
+  platformRevenueAllocations PlatformRevenueAllocation[]
+  partnerProfile PartnerProfile?
+  webhookEndpoints WebhookEndpoint[]
+  certificationRuns IntegrationCertification[]
+  sandboxScenarios SandboxScenario[]
+  settlementBatches SettlementBatch[]
+  settlementItems SettlementItem[]
+  publisherStatements PublisherStatement[]
+  investigations TrustInvestigation[]
+  supportCases SupportCase[]
+  incidents Incident[]
+  serviceHealthSnapshots ServiceHealthSnapshot[]
+  scheduledReports ScheduledReport[]
+}
+
+model OrganisationMembership {
+  id String @id @default(uuid())
+  userId String
+  organisationId String
+  role String
+  status MembershipStatus @default(INVITED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  organisation Organisation @relation(fields:[organisationId], references:[id], onDelete:Cascade)
+  @@unique([userId, organisationId, role])
+  @@index([organisationId, status])
+}
+
+model Session {
+  id String @id @default(uuid())
+  userId String
+  organisationId String
+  refreshTokenHash String @unique
+  userAgent String?
+  ipAddress String?
+  expiresAt DateTime
+  lastUsedAt DateTime @default(now())
+  revokedAt DateTime?
+  revokeReason String?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  @@index([userId, expiresAt])
+  @@index([organisationId, expiresAt])
+}
+
+model UserToken {
+  id String @id @default(uuid())
+  userId String
+  purpose TokenPurpose
+  tokenHash String @unique
+  expiresAt DateTime
+  consumedAt DateTime?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  @@index([userId, purpose, expiresAt])
+}
+
+model OrganisationInvitation {
+  id String @id @default(uuid())
+  organisationId String
+  email String
+  role String
+  tokenHash String @unique
+  status InvitationStatus @default(PENDING)
+  expiresAt DateTime
+  invitedByUserId String
+  acceptedByUserId String?
+  acceptedAt DateTime?
+  createdAt DateTime @default(now())
+  organisation Organisation @relation(fields:[organisationId], references:[id], onDelete:Cascade)
+  invitedBy User @relation("InvitationSender", fields:[invitedByUserId], references:[id], onDelete:Restrict)
+  @@index([organisationId, status])
+  @@index([email, status])
+}
+
+model ServiceAccount {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  description String?
+  clientId String @unique
+  secretHash String
+  scopes String[]
+  status CredentialStatus @default(ACTIVE)
+  lastUsedAt DateTime?
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId], references:[id], onDelete:Cascade)
+  @@index([organisationId, status])
+}
+
+model ApiCredential {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  prefix String @unique
+  keyHash String
+  scopes String[]
+  status CredentialStatus @default(ACTIVE)
+  lastUsedAt DateTime?
+  expiresAt DateTime?
+  createdByUserId String
+  createdAt DateTime @default(now())
+  revokedAt DateTime?
+  organisation Organisation @relation(fields:[organisationId], references:[id], onDelete:Cascade)
+  @@index([organisationId, status])
+}
+
+model AuditLog {
+  id String @id @default(uuid())
+  organisationId String?
+  actorId String?
+  action String
+  entityType String
+  entityId String?
+  requestId String
+  metadata Json
+  createdAt DateTime @default(now())
+  organisation Organisation? @relation(fields:[organisationId], references:[id], onDelete:SetNull)
+  actor User? @relation("AuditActor", fields:[actorId], references:[id], onDelete:SetNull)
+  @@index([organisationId, createdAt])
+  @@index([entityType, entityId])
+}
+
+model OutboxEvent {
+  id String @id @default(uuid())
+  organisationId String?
+  type String
+  version Int @default(1)
+  correlationId String
+  causationId String?
+  payload Json
+  status OutboxStatus @default(PENDING)
+  attempts Int @default(0)
+  availableAt DateTime @default(now())
+  lockedAt DateTime?
+  lockedBy String?
+  lastError String?
+  publishedAt DateTime?
+  createdAt DateTime @default(now())
+  organisation Organisation? @relation(fields:[organisationId], references:[id], onDelete:SetNull)
+  @@index([status, availableAt])
+  @@index([correlationId])
+}
+
+
+model PublisherProfile {
+  id String @id @default(uuid())
+  organisationId String @unique
+  legalName String
+  tradingName String?
+  website String?
+  countryCode String
+  registrationNumber String?
+  status PublisherStatus @default(DRAFT)
+  trustScore Int @default(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  verifications PublisherVerification[]
+}
+
+model PublisherVerification {
+  id String @id @default(uuid())
+  publisherProfileId String
+  status VerificationStatus @default(PENDING)
+  verificationType String
+  providerReference String?
+  submittedData Json
+  decisionReason String?
+  reviewedByUserId String?
+  reviewedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  publisherProfile PublisherProfile @relation(fields:[publisherProfileId],references:[id],onDelete:Cascade)
+  @@index([publisherProfileId,status])
+}
+
+model Property {
+  id String @id @default(uuid())
+  organisationId String
+  type PropertyType
+  name String
+  externalIdentifier String
+  domain String?
+  storeUrl String?
+  packageName String?
+  bundleId String?
+  gameEngine String?
+  category String
+  language String
+  countryCodes String[]
+  status PropertyStatus @default(DRAFT)
+  ownershipVerifiedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  placements Placement[]
+  sdkRegistrations SdkRegistration[]
+  adRequests AdRequest[]
+  @@unique([organisationId,externalIdentifier])
+  @@index([organisationId,status])
+}
+
+model InventoryPolicy {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  floorCpm Decimal? @db.Decimal(18,6)
+  currency String @default("USD")
+  blockedCategories String[]
+  blockedAdvertiserDomains String[]
+  allowedCountryCodes String[]
+  requireBrandSafety Boolean @default(true)
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  placements Placement[]
+  @@unique([organisationId,name])
+}
+
+model Placement {
+  id String @id @default(uuid())
+  propertyId String
+  inventoryPolicyId String?
+  name String
+  format PlacementFormat
+  width Int?
+  height Int?
+  rewardName String?
+  rewardAmount Int?
+  floorCpm Decimal? @db.Decimal(18,6)
+  currency String @default("USD")
+  status PlacementStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  property Property @relation(fields:[propertyId],references:[id],onDelete:Cascade)
+  adRequests AdRequest[]
+  inventoryPolicy InventoryPolicy? @relation(fields:[inventoryPolicyId],references:[id],onDelete:SetNull)
+  @@unique([propertyId,name])
+  @@index([propertyId,status])
+}
+
+model SdkRegistration {
+  id String @id @default(uuid())
+  organisationId String
+  propertyId String
+  platform SdkPlatform
+  sdkVersion String
+  environment String
+  publicKeyPrefix String @unique
+  secretHash String
+  status SdkRegistrationStatus @default(REGISTERED)
+  lastHeartbeatAt DateTime?
+  certifiedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  property Property @relation(fields:[propertyId],references:[id],onDelete:Cascade)
+  adRequests AdRequest[]
+  @@index([organisationId,status])
+  @@index([propertyId,platform])
+}
+
+model PublisherPayoutProfile {
+  id String @id @default(uuid())
+  organisationId String @unique
+  provider String
+  accountReferenceEncrypted String
+  currency String @default("USD")
+  countryCode String
+  schedule String @default("MONTHLY")
+  minimumThreshold Decimal @default(100) @db.Decimal(18,2)
+  taxIdentifierEncrypted String?
+  status PayoutProfileStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+}
+
+
+model AdvertiserProfile {
+  id String @id @default(uuid())
+  organisationId String @unique
+  legalName String
+  tradingName String?
+  website String?
+  countryCode String
+  registrationNumber String?
+  industry String
+  status AdvertiserStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+}
+
+model AdvertiserBillingProfile {
+  id String @id @default(uuid())
+  organisationId String @unique
+  billingEmail String
+  legalName String
+  addressLine1 String
+  addressLine2 String?
+  city String
+  region String?
+  postalCode String
+  countryCode String
+  taxIdentifierEncrypted String?
+  currency String @default("USD")
+  status BillingProfileStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+}
+
+model AdvertiserWallet {
+  id String @id @default(uuid())
+  organisationId String @unique
+  currency String @default("USD")
+  availableBalance Decimal @default(0) @db.Decimal(18,6)
+  reservedBalance Decimal @default(0) @db.Decimal(18,6)
+  lifetimeFunded Decimal @default(0) @db.Decimal(18,6)
+  lifetimeSpent Decimal @default(0) @db.Decimal(18,6)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  transactions WalletTransaction[]
+  budgetReservations BudgetReservation[]
+}
+
+model WalletTransaction {
+  id String @id @default(uuid())
+  walletId String
+  type WalletTransactionType
+  status WalletTransactionStatus @default(POSTED)
+  amount Decimal @db.Decimal(18,6)
+  currency String
+  idempotencyKey String @unique
+  providerReference String?
+  description String?
+  createdAt DateTime @default(now())
+  wallet AdvertiserWallet @relation(fields:[walletId],references:[id],onDelete:Cascade)
+  @@index([walletId,createdAt])
+}
+
+model Campaign {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  objective String
+  status CampaignStatus @default(DRAFT)
+  currency String @default("USD")
+  totalBudget Decimal @db.Decimal(18,6)
+  dailyBudget Decimal? @db.Decimal(18,6)
+  startAt DateTime
+  endAt DateTime
+  pacingMode PacingMode @default(EVEN)
+  approvalReason String?
+  approvedByUserId String?
+  approvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  lineItems LineItem[]
+  creatives Creative[]
+  auctionBids AuctionBid[]
+  budgetReservations BudgetReservation[]
+  @@index([organisationId,status])
+}
+
+model LineItem {
+  id String @id @default(uuid())
+  campaignId String
+  name String
+  status LineItemStatus @default(DRAFT)
+  bidAmount Decimal @db.Decimal(18,6)
+  bidStrategy String
+  budget Decimal @db.Decimal(18,6)
+  dailyBudget Decimal? @db.Decimal(18,6)
+  pacingMode PacingMode @default(EVEN)
+  targeting Json
+  frequencyCap Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  campaign Campaign @relation(fields:[campaignId],references:[id],onDelete:Cascade)
+  auctionBids AuctionBid[]
+  budgetReservations BudgetReservation[]
+  @@index([campaignId,status])
+}
+
+model Creative {
+  id String @id @default(uuid())
+  organisationId String
+  campaignId String?
+  name String
+  type CreativeType
+  status CreativeStatus @default(DRAFT)
+  assetUrl String
+  mimeType String
+  width Int?
+  height Int?
+  durationSeconds Int?
+  clickThroughUrl String
+  metadata Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  campaign Campaign? @relation(fields:[campaignId],references:[id],onDelete:SetNull)
+  reviews CreativeReview[]
+  auctionBids AuctionBid[]
+  deliveries AdDelivery[]
+  @@index([organisationId,status])
+}
+
+model CreativeReview {
+  id String @id @default(uuid())
+  creativeId String
+  reviewerUserId String
+  decision CreativeReviewDecision
+  reason String?
+  createdAt DateTime @default(now())
+  creative Creative @relation(fields:[creativeId],references:[id],onDelete:Cascade)
+  reviewer User @relation("CreativeReviewer",fields:[reviewerUserId],references:[id],onDelete:Restrict)
+  @@index([creativeId,createdAt])
+}
+
+
+model AdRequest {
+  id String @id @default(uuid())
+  requestKey String @unique
+  publisherOrganisationId String
+  propertyId String
+  placementId String
+  sdkRegistrationId String
+  status AdRequestStatus @default(RECEIVED)
+  countryCode String?
+  language String?
+  deviceType String
+  channel String
+  userKeyHash String?
+  contextualData Json
+  receivedAt DateTime @default(now())
+  processedAt DateTime?
+  publisherOrganisation Organisation @relation("PublisherAdRequests",fields:[publisherOrganisationId],references:[id],onDelete:Restrict)
+  property Property @relation(fields:[propertyId],references:[id],onDelete:Restrict)
+  placement Placement @relation(fields:[placementId],references:[id],onDelete:Restrict)
+  sdkRegistration SdkRegistration @relation(fields:[sdkRegistrationId],references:[id],onDelete:Restrict)
+  auction Auction?
+  @@index([placementId,receivedAt])
+  @@index([publisherOrganisationId,status])
+}
+
+model Auction {
+  id String @id @default(uuid())
+  adRequestId String @unique
+  status AuctionStatus @default(CREATED)
+  currency String @default("USD")
+  floorCpm Decimal @default(0) @db.Decimal(18,6)
+  eligibleBidCount Int @default(0)
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  adRequest AdRequest @relation(fields:[adRequestId],references:[id],onDelete:Restrict)
+  bids AuctionBid[]
+  decision AuctionDecision?
+  delivery AdDelivery?
+}
+
+model AuctionBid {
+  id String @id @default(uuid())
+  auctionId String
+  campaignId String
+  lineItemId String
+  creativeId String
+  advertiserOrganisationId String
+  bidCpm Decimal @db.Decimal(18,6)
+  eligible Boolean
+  rejectionReasons String[]
+  rank Int?
+  createdAt DateTime @default(now())
+  auction Auction @relation(fields:[auctionId],references:[id],onDelete:Cascade)
+  campaign Campaign @relation(fields:[campaignId],references:[id],onDelete:Restrict)
+  lineItem LineItem @relation(fields:[lineItemId],references:[id],onDelete:Restrict)
+  creative Creative @relation(fields:[creativeId],references:[id],onDelete:Restrict)
+  @@unique([auctionId,lineItemId,creativeId])
+  @@index([auctionId,eligible,bidCpm])
+}
+
+model AuctionDecision {
+  id String @id @default(uuid())
+  auctionId String @unique
+  status AuctionDecisionStatus
+  advertiserOrganisationId String?
+  campaignId String?
+  lineItemId String?
+  creativeId String?
+  winningBidCpm Decimal? @db.Decimal(18,6)
+  clearingPriceCpm Decimal? @db.Decimal(18,6)
+  budgetReservationId String? @unique
+  noFillReason String?
+  evidence Json
+  decidedAt DateTime @default(now())
+  auction Auction @relation(fields:[auctionId],references:[id],onDelete:Restrict)
+  advertiserOrganisation Organisation? @relation("AdvertiserDecisions",fields:[advertiserOrganisationId],references:[id],onDelete:Restrict)
+  budgetReservation BudgetReservation? @relation(fields:[budgetReservationId],references:[id],onDelete:SetNull)
+  delivery AdDelivery?
+}
+
+model BudgetReservation {
+  id String @id @default(uuid())
+  requestKey String @unique
+  walletId String
+  campaignId String
+  lineItemId String
+  amount Decimal @db.Decimal(18,6)
+  currency String
+  status BudgetReservationStatus @default(RESERVED)
+  expiresAt DateTime
+  releasedAt DateTime?
+  chargedAt DateTime?
+  createdAt DateTime @default(now())
+  wallet AdvertiserWallet @relation(fields:[walletId],references:[id],onDelete:Restrict)
+  campaign Campaign @relation(fields:[campaignId],references:[id],onDelete:Restrict)
+  lineItem LineItem @relation(fields:[lineItemId],references:[id],onDelete:Restrict)
+  decision AuctionDecision?
+  @@index([walletId,status,expiresAt])
+}
+
+model FrequencyExposure {
+  id String @id @default(uuid())
+  userKeyHash String
+  lineItemId String
+  occurredAt DateTime @default(now())
+  @@index([userKeyHash,lineItemId,occurredAt])
+}
+
+
+model AdDelivery {
+  id String @id @default(uuid())
+  auctionId String @unique
+  decisionId String @unique
+  creativeId String
+  deliveryTokenHash String @unique
+  status DeliveryStatus @default(ISSUED)
+  assetUrl String
+  resolvedAssetUrl String?
+  clickThroughUrl String
+  issuedAt DateTime @default(now())
+  expiresAt DateTime
+  firstRenderedAt DateTime?
+  impressionQualifiedAt DateTime?
+  clickedAt DateTime?
+  completedAt DateTime?
+  failedAt DateTime?
+  failureCode String?
+  failureDetail String?
+  auction Auction @relation(fields:[auctionId],references:[id],onDelete:Restrict)
+  decision AuctionDecision @relation(fields:[decisionId],references:[id],onDelete:Restrict)
+  creative Creative @relation(fields:[creativeId],references:[id],onDelete:Restrict)
+  events DeliveryMeasurementEvent[]
+  playback VideoPlaybackEvent[]
+  viewabilityAssessments ViewabilityAssessment[]
+  fraudAssessments FraudAssessment[]
+  billableEvents BillableEvent[]
+  attributions AttributionRecord[]
+  conversions ConversionEvent[]
+  @@index([status,issuedAt])
+}
+
+model DeliveryMeasurementEvent {
+  id String @id @default(uuid())
+  deliveryId String
+  eventType MeasurementEventType
+  eventKey String @unique
+  validationStatus MeasurementValidationStatus @default(ACCEPTED)
+  occurredAt DateTime
+  receivedAt DateTime @default(now())
+  evidence Json
+  rejectionReason String?
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Cascade)
+  @@index([deliveryId,eventType,occurredAt])
+}
+
+model VideoPlaybackEvent {
+  id String @id @default(uuid())
+  deliveryId String
+  quartile PlaybackQuartile
+  eventKey String @unique
+  positionSeconds Decimal? @db.Decimal(18,3)
+  durationSeconds Decimal? @db.Decimal(18,3)
+  occurredAt DateTime
+  receivedAt DateTime @default(now())
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Cascade)
+  @@unique([deliveryId,quartile])
+}
+
+
+model ViewabilityAssessment {
+  id String @id @default(uuid())
+  deliveryId String
+  visiblePercentage Decimal @db.Decimal(5,2)
+  durationMs Int
+  viewportWidth Int?
+  viewportHeight Int?
+  tabFocused Boolean @default(true)
+  qualified Boolean
+  ruleVersion String @default("v1")
+  assessedAt DateTime @default(now())
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Cascade)
+  @@index([deliveryId,assessedAt])
+}
+
+model FraudAssessment {
+  id String @id @default(uuid())
+  deliveryId String
+  status FraudDecisionStatus
+  riskScore Int
+  signals String[]
+  evidence Json
+  assessedAt DateTime @default(now())
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Cascade)
+  @@index([deliveryId,status,assessedAt])
+}
+
+model ConversionEvent {
+  id String @id @default(uuid())
+  deliveryId String
+  eventKey String @unique
+  conversionType String
+  value Decimal? @db.Decimal(18,6)
+  currency String?
+  occurredAt DateTime
+  receivedAt DateTime @default(now())
+  metadata Json
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Restrict)
+  attribution AttributionRecord?
+  @@index([deliveryId,occurredAt])
+}
+
+model AttributionRecord {
+  id String @id @default(uuid())
+  deliveryId String
+  conversionEventId String? @unique
+  model AttributionModel
+  attributed Boolean
+  confidence Decimal @db.Decimal(5,4)
+  evidence Json
+  attributedAt DateTime @default(now())
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Restrict)
+  conversionEvent ConversionEvent? @relation(fields:[conversionEventId],references:[id],onDelete:SetNull)
+  @@index([deliveryId,attributedAt])
+}
+
+model BillableEvent {
+  id String @id @default(uuid())
+  deliveryId String
+  eventKey String @unique
+  status BillableEventStatus @default(PENDING)
+  advertiserAmount Decimal @db.Decimal(18,6)
+  publisherAmount Decimal @db.Decimal(18,6)
+  platformAmount Decimal @db.Decimal(18,6)
+  currency String
+  qualificationEvidence Json
+  qualifiedAt DateTime?
+  postedAt DateTime?
+  rejectionReason String?
+  delivery AdDelivery @relation(fields:[deliveryId],references:[id],onDelete:Restrict)
+  publisherEarning PublisherEarning?
+  platformAllocation PlatformRevenueAllocation?
+  reconciliation FinancialReconciliation?
+  @@index([status,qualifiedAt])
+}
+
+model PublisherEarning {
+  id String @id @default(uuid())
+  billableEventId String @unique
+  publisherOrganisationId String
+  amount Decimal @db.Decimal(18,6)
+  currency String
+  availableAt DateTime
+  settledAt DateTime?
+  createdAt DateTime @default(now())
+  billableEvent BillableEvent @relation(fields:[billableEventId],references:[id],onDelete:Restrict)
+  publisherOrganisation Organisation @relation("PublisherEarnings",fields:[publisherOrganisationId],references:[id],onDelete:Restrict)
+  @@index([publisherOrganisationId,availableAt])
+}
+
+model PlatformRevenueAllocation {
+  id String @id @default(uuid())
+  billableEventId String @unique
+  platformOrganisationId String
+  amount Decimal @db.Decimal(18,6)
+  currency String
+  createdAt DateTime @default(now())
+  billableEvent BillableEvent @relation(fields:[billableEventId],references:[id],onDelete:Restrict)
+  platformOrganisation Organisation @relation(fields:[platformOrganisationId],references:[id],onDelete:Restrict)
+}
+
+model LedgerAccount {
+  id String @id @default(uuid())
+  organisationId String?
+  code String @unique
+  name String
+  type LedgerAccountType
+  currency String
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+  organisation Organisation? @relation(fields:[organisationId],references:[id],onDelete:SetNull)
+  lines LedgerLine[]
+}
+
+model LedgerEntry {
+  id String @id @default(uuid())
+  reference String @unique
+  status LedgerEntryStatus @default(POSTED)
+  description String
+  occurredAt DateTime
+  createdAt DateTime @default(now())
+  reversedEntryId String?
+  metadata Json
+  lines LedgerLine[]
+  @@index([occurredAt,status])
+}
+
+model LedgerLine {
+  id String @id @default(uuid())
+  entryId String
+  accountId String
+  debit Decimal @default(0) @db.Decimal(18,6)
+  credit Decimal @default(0) @db.Decimal(18,6)
+  currency String
+  entry LedgerEntry @relation(fields:[entryId],references:[id],onDelete:Cascade)
+  account LedgerAccount @relation(fields:[accountId],references:[id],onDelete:Restrict)
+  @@index([accountId,entryId])
+}
+
+model FinancialReconciliation {
+  id String @id @default(uuid())
+  billableEventId String @unique
+  status ReconciliationStatus @default(PENDING)
+  advertiserCharge Decimal @db.Decimal(18,6)
+  publisherEarning Decimal @db.Decimal(18,6)
+  platformRevenue Decimal @db.Decimal(18,6)
+  ledgerDebit Decimal @db.Decimal(18,6)
+  ledgerCredit Decimal @db.Decimal(18,6)
+  variance Decimal @db.Decimal(18,6)
+  evidence Json
+  reconciledAt DateTime?
+  createdAt DateTime @default(now())
+  billableEvent BillableEvent @relation(fields:[billableEventId],references:[id],onDelete:Restrict)
+  @@index([status,createdAt])
+}
+
+
+model PartnerProfile {
+  id String @id @default(uuid())
+  organisationId String @unique
+  type PartnerType
+  status PartnerStatus @default(DRAFT)
+  displayName String
+  technicalContactEmail String
+  callbackBaseUrl String?
+  openRtbVersion String?
+  capabilities String[]
+  approvedAt DateTime?
+  suspendedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+}
+
+model WebhookEndpoint {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  url String
+  eventTypes String[]
+  secretHash String
+  secretPrefix String
+  status WebhookStatus @default(ACTIVE)
+  lastDeliveredAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  deliveries WebhookDelivery[]
+  @@index([organisationId,status])
+}
+
+model WebhookDelivery {
+  id String @id @default(uuid())
+  endpointId String
+  eventId String
+  eventType String
+  status WebhookDeliveryStatus @default(PENDING)
+  attempts Int @default(0)
+  responseCode Int?
+  nextAttemptAt DateTime?
+  deliveredAt DateTime?
+  lastError String?
+  payload Json
+  createdAt DateTime @default(now())
+  endpoint WebhookEndpoint @relation(fields:[endpointId],references:[id],onDelete:Cascade)
+  @@unique([endpointId,eventId])
+  @@index([status,nextAttemptAt])
+}
+
+model IntegrationCertification {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  status CertificationStatus @default(DRAFT)
+  sdkPlatform SdkPlatform?
+  protocolVersion String?
+  checks Json
+  score Int @default(0)
+  evidence Json
+  reviewedByUserId String?
+  submittedAt DateTime?
+  completedAt DateTime?
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  @@index([organisationId,status])
+}
+
+model SandboxScenario {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  scenarioType String
+  status SandboxScenarioStatus @default(READY)
+  input Json
+  output Json?
+  seed Int
+  startedAt DateTime?
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  @@index([organisationId,status])
+}
+
+
+model SettlementBatch {
+  id String @id @default(uuid())
+  publisherOrganisationId String
+  currency String
+  periodStart DateTime
+  periodEnd DateTime
+  grossAmount Decimal @db.Decimal(18,6)
+  withholdingAmount Decimal @default(0) @db.Decimal(18,6)
+  netAmount Decimal @db.Decimal(18,6)
+  status SettlementBatchStatus @default(DRAFT)
+  scheduledFor DateTime?
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  publisherOrganisation Organisation @relation(fields:[publisherOrganisationId],references:[id],onDelete:Restrict)
+  items SettlementItem[]
+  statement PublisherStatement?
+  @@index([publisherOrganisationId,status,scheduledFor])
+}
+
+model SettlementItem {
+  id String @id @default(uuid())
+  batchId String
+  publisherOrganisationId String
+  publisherEarningId String @unique
+  grossAmount Decimal @db.Decimal(18,6)
+  withholdingAmount Decimal @default(0) @db.Decimal(18,6)
+  netAmount Decimal @db.Decimal(18,6)
+  status SettlementItemStatus @default(PENDING)
+  failureReason String?
+  paidAt DateTime?
+  createdAt DateTime @default(now())
+  batch SettlementBatch @relation(fields:[batchId],references:[id],onDelete:Cascade)
+  publisherOrganisation Organisation @relation(fields:[publisherOrganisationId],references:[id],onDelete:Restrict)
+  attempts PayoutAttempt[]
+  @@index([batchId,status])
+}
+
+model PayoutAttempt {
+  id String @id @default(uuid())
+  settlementItemId String
+  provider String
+  providerReference String?
+  idempotencyKey String @unique
+  status PayoutAttemptStatus @default(PENDING)
+  attemptNumber Int @default(1)
+  amount Decimal @db.Decimal(18,6)
+  currency String
+  nextRetryAt DateTime?
+  errorCode String?
+  errorMessage String?
+  submittedAt DateTime?
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  settlementItem SettlementItem @relation(fields:[settlementItemId],references:[id],onDelete:Cascade)
+  @@index([status,nextRetryAt])
+}
+
+model PublisherStatement {
+  id String @id @default(uuid())
+  publisherOrganisationId String
+  settlementBatchId String @unique
+  statementNumber String @unique
+  status StatementStatus @default(DRAFT)
+  periodStart DateTime
+  periodEnd DateTime
+  currency String
+  grossAmount Decimal @db.Decimal(18,6)
+  withholdingAmount Decimal @db.Decimal(18,6)
+  netAmount Decimal @db.Decimal(18,6)
+  issuedAt DateTime?
+  documentUrl String?
+  createdAt DateTime @default(now())
+  publisherOrganisation Organisation @relation(fields:[publisherOrganisationId],references:[id],onDelete:Restrict)
+  settlementBatch SettlementBatch @relation(fields:[settlementBatchId],references:[id],onDelete:Restrict)
+  @@index([publisherOrganisationId,periodEnd])
+}
+
+model TrustInvestigation {
+  id String @id @default(uuid())
+  organisationId String?
+  subjectType String
+  subjectId String
+  title String
+  status InvestigationStatus @default(OPEN)
+  severity Int @default(1)
+  riskScore Int @default(0)
+  assignedToUserId String?
+  evidence Json
+  decision Json?
+  resolvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation? @relation(fields:[organisationId],references:[id],onDelete:SetNull)
+  assignedTo User? @relation("InvestigationAssignee",fields:[assignedToUserId],references:[id],onDelete:SetNull)
+  @@index([status,severity,createdAt])
+  @@index([subjectType,subjectId])
+}
+
+model SupportCase {
+  id String @id @default(uuid())
+  organisationId String?
+  requesterUserId String?
+  subject String
+  description String
+  status SupportCaseStatus @default(OPEN)
+  priority Int @default(2)
+  assignedToUserId String?
+  tags String[]
+  metadata Json
+  resolvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation? @relation(fields:[organisationId],references:[id],onDelete:SetNull)
+  assignedTo User? @relation("SupportAssignee",fields:[assignedToUserId],references:[id],onDelete:SetNull)
+  @@index([status,priority,createdAt])
+}
+
+model Incident {
+  id String @id @default(uuid())
+  organisationId String?
+  title String
+  description String
+  severity IncidentSeverity
+  status IncidentStatus @default(OPEN)
+  service String
+  region String?
+  ownerUserId String?
+  startedAt DateTime
+  mitigatedAt DateTime?
+  resolvedAt DateTime?
+  rootCause String?
+  impact Json
+  timeline Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation? @relation(fields:[organisationId],references:[id],onDelete:SetNull)
+  owner User? @relation("IncidentOwner",fields:[ownerUserId],references:[id],onDelete:SetNull)
+  @@index([status,severity,startedAt])
+}
+
+model ServiceHealthSnapshot {
+  id String @id @default(uuid())
+  organisationId String?
+  service String
+  region String
+  status ServiceHealthStatus
+  availability Decimal? @db.Decimal(8,5)
+  latencyMs Int?
+  errorRate Decimal? @db.Decimal(8,5)
+  queueDepth Int?
+  details Json
+  observedAt DateTime
+  organisation Organisation? @relation(fields:[organisationId],references:[id],onDelete:SetNull)
+  @@index([service,region,observedAt])
+}
+
+model ScheduledReport {
+  id String @id @default(uuid())
+  organisationId String
+  name String
+  reportType String
+  schedule String
+  recipients String[]
+  status ScheduledReportStatus @default(ACTIVE)
+  filters Json
+  lastRunAt DateTime?
+  nextRunAt DateTime?
+  lastError String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  organisation Organisation @relation(fields:[organisationId],references:[id],onDelete:Cascade)
+  @@index([organisationId,status,nextRunAt])
+}

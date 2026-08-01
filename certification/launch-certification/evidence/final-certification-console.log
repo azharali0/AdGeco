@@ -1,0 +1,5 @@
+
+> adgeco@1.2.0-launch-candidate.1 certify:launch
+> node tooling/launch-certification.mjs
+
+{"decision":"CONDITIONAL-NO-GO","summary":{"PASS":5,"AVAILABLE":0,"BLOCKED":23,"FAIL":0}}

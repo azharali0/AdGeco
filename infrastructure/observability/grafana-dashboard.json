@@ -1,0 +1,33 @@
+{
+  "title": "AdGeco Production Overview",
+  "schemaVersion": 39,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Auction latency p95",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(adgeco_auction_duration_seconds_bucket[5m])) by (le))"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Fill rate",
+      "targets": [
+        {
+          "expr": "sum(rate(adgeco_auction_winner_total[5m])) / sum(rate(adgeco_ad_request_total[5m]))"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Unreconciled financial events",
+      "targets": [
+        {
+          "expr": "adgeco_reconciliation_exception_total"
+        }
+      ]
+    }
+  ]
+}

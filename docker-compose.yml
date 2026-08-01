@@ -1,0 +1,63 @@
+name: adgeco
+x-app-env: &app-env
+  DATABASE_URL: postgresql://adgeco:adgeco@postgres:5432/adgeco
+  JWT_SECRET: local-development-secret-change-me-32
+  TOKEN_PEPPER: local-development-pepper-change-me-32
+  ENCRYPTION_KEY: local-development-encryption-key-32
+  NODE_ENV: development
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: {POSTGRES_USER: adgeco, POSTGRES_PASSWORD: adgeco, POSTGRES_DB: adgeco}
+    ports: ["5432:5432"]
+    volumes: ["adgeco-postgres:/var/lib/postgresql/data"]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U adgeco"], interval: 5s, timeout: 3s, retries: 20}
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    healthcheck: {test: ["CMD", "redis-cli", "ping"], interval: 5s, timeout: 3s, retries: 20}
+  migrate:
+    build: {context: ., dockerfile: apps/api/Dockerfile, target: build}
+    environment: *app-env
+    command: ["pnpm","--filter","@adgeco/database","prisma:migrate"]
+    depends_on: {postgres: {condition: service_healthy}}
+  api:
+    build: {context: ., dockerfile: apps/api/Dockerfile}
+    environment: *app-env
+    ports: ["3001:3001"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  worker:
+    build: {context: ., dockerfile: apps/worker/Dockerfile}
+    environment: *app-env
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  exchange-service:
+    build: {context: ., dockerfile: apps/exchange-service/Dockerfile}
+    environment: {<<: *app-env, PORT: 3010, SERVICE_SECRET: local-service-secret-change-me}
+    ports: ["3010:3010"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  measurement-service:
+    build: {context: ., dockerfile: apps/measurement-service/Dockerfile}
+    environment: {<<: *app-env, PORT: 3011, SERVICE_SECRET: local-service-secret-change-me}
+    ports: ["3011:3011"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  fraud-service:
+    build: {context: ., dockerfile: apps/fraud-service/Dockerfile}
+    environment: {<<: *app-env, PORT: 3012, SERVICE_SECRET: local-service-secret-change-me}
+    ports: ["3012:3012"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  ledger-service:
+    build: {context: ., dockerfile: apps/ledger-service/Dockerfile}
+    environment: {<<: *app-env, PORT: 3013, SERVICE_SECRET: local-service-secret-change-me}
+    ports: ["3013:3013"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  settlement-service:
+    build: {context: ., dockerfile: apps/settlement-service/Dockerfile}
+    environment: {<<: *app-env, PORT: 3014, SERVICE_SECRET: local-service-secret-change-me}
+    ports: ["3014:3014"]
+    depends_on: {migrate: {condition: service_completed_successfully}}
+  web:
+    build: {context: ., dockerfile: apps/web/Dockerfile}
+    environment: {NEXT_PUBLIC_API_URL: http://localhost:3001}
+    ports: ["3000:3000"]
+    depends_on: [api]
+volumes: {adgeco-postgres: {}}

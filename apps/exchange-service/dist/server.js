@@ -1,0 +1,17 @@
+import Fastify from 'fastify';
+import { z } from 'zod';
+import { prisma } from '@adgeco/database';
+import { servicePort, requireServiceToken, serviceAuthHeader } from '@adgeco/service-runtime';
+import { executePersistentAuction } from './persistent.js';
+const app = Fastify({ logger: true });
+app.addHook('onRequest', async (req) => requireServiceToken(serviceAuthHeader(req.headers)));
+app.get('/health/live', async () => ({ status: 'ok', service: 'exchange' }));
+app.get('/health/ready', async (_r, reply) => { try {
+    await prisma.$queryRaw `SELECT 1`;
+    return { status: 'ok' };
+}
+catch {
+    return reply.code(503).send({ status: 'degraded' });
+} });
+app.post('/v1/auctions', async (req, reply) => { const body = z.object({ requestKey: z.string().min(8), placementId: z.string().uuid(), sdkRegistrationId: z.string().uuid(), countryCode: z.string().length(2).optional(), language: z.string().optional(), deviceType: z.string().min(1), channel: z.string().min(1), userKeyHash: z.string().optional(), contextualData: z.record(z.unknown()).optional() }).parse(req.body); return reply.code(201).send(await executePersistentAuction(prisma, body)); });
+app.listen({ port: servicePort(4101), host: '0.0.0.0' });

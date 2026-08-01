@@ -1,0 +1,84 @@
+{
+  "programme": "ADG-REPOSITORY-CONVERGENCE-1",
+  "scope": "Repository-controlled source, configuration, contracts, migrations, tests, UI, container definitions, infrastructure declarations and documentation",
+  "generatedAt": "2026-07-26",
+  "summary": {
+    "identified": 8,
+    "closed": 10,
+    "open": 0,
+    "deferredRepositoryDefects": 0,
+    "total": 10
+  },
+  "defects": [
+    {
+      "id": "CONV-001",
+      "area": "Release metadata",
+      "finding": "Root release identity was not converged after UI modernisation.",
+      "resolution": "Advanced the canonical repository to 1.0.0-converged and made convergence proof part of the root command surface.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-002",
+      "area": "Quality gates",
+      "finding": "No single final convergence command covered inherited proof plus convergence-specific assertions.",
+      "resolution": "Added proof:converged and convergence:verify.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-003",
+      "area": "Defect governance",
+      "finding": "No machine-readable repository defect register existed.",
+      "resolution": "Added this fail-closed canonical register.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-004",
+      "area": "Implementation hygiene",
+      "finding": "Unresolved implementation markers could re-enter without a dedicated convergence control.",
+      "resolution": "Added recursive marker inspection across executable and configuration files.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-005",
+      "area": "Runtime topology",
+      "finding": "Core workload convergence was not asserted by the final gate.",
+      "resolution": "Added mandatory topology assertions for the 11 core Compose workloads.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-006",
+      "area": "UI governance",
+      "finding": "The white-background/no-gradient policy was documented but not enforced by the convergence gate.",
+      "resolution": "Added automated gradient prohibition and white-background assertion.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-007",
+      "area": "Evidence",
+      "finding": "No final repository-wide convergence report joined remediation status, proof and residual external gates.",
+      "resolution": "Added REPOSITORY-CONVERGENCE-REPORT.md.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "CONV-008",
+      "area": "Boundary management",
+      "finding": "Repository defects and external commissioning evidence were previously easy to conflate.",
+      "resolution": "Separated the zero repository-defect register from the residual external dependency register.",
+      "status": "CLOSED"
+    },
+    {
+      "id": "ADG-LC-001",
+      "severity": "HIGH",
+      "status": "CLOSED",
+      "title": "Service containers running as root",
+      "resolution": "Added USER node to all affected production service Dockerfiles."
+    },
+    {
+      "id": "ADG-LC-002",
+      "severity": "MEDIUM",
+      "status": "CLOSED",
+      "title": "Convergence gate hard-coded to prior release version",
+      "resolution": "Updated release-candidate version convergence to accept subsequent certified release candidates."
+    }
+  ]
+}

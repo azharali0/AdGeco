@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@adgeco/contracts": ["packages/contracts/src/index.ts"],
+      "@adgeco/auth": ["packages/auth/src/index.ts"],
+      "@adgeco/config": ["packages/config/src/index.ts"],
+      "@adgeco/event-bus": ["packages/event-bus/src/index.ts"],
+      "@adgeco/observability": ["packages/observability/src/index.ts"]
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "programme": "ADG-PRODUCTION-VALIDATION-1",
+  "generatedAt": "2026-07-27T09:59:43.973Z",
+  "release": "1.1.0-rc.1",
+  "result": "CONDITIONAL",
+  "summary": {
+    "passed": 3,
+    "available": 0,
+    "blocked": 10,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "id": "internet-registry",
+      "status": "BLOCKED",
+      "reason": "Registry access is required for canonical lockfile generation and clean dependency resolution."
+    },
+    {
+      "id": "lockfile",
+      "status": "BLOCKED",
+      "reason": "Canonical pnpm-lock.yaml cannot be generated without registry access."
+    },
+    {
+      "id": "repository-proof",
+      "status": "PASS",
+      "command": "npm run proof:converged",
+      "exitCode": 0,
+      "started": "2026-07-27T09:59:37.604Z",
+      "evidence": "certification/production-validation/evidence/repository-proof.log"
+    },
+    {
+      "id": "native-sdk-proof",
+      "status": "PASS",
+      "command": "bash tooling/verify-native-sdks.sh",
+      "exitCode": 0,
+      "started": "2026-07-27T09:59:40.181Z",
+      "evidence": "certification/production-validation/evidence/native-sdk-proof.log"
+    },
+    {
+      "id": "source-sbom",
+      "status": "PASS",
+      "command": "node tooling/generate-source-sbom.mjs",
+      "exitCode": 0,
+      "started": "2026-07-27T09:59:43.916Z",
+      "evidence": "certification/production-validation/evidence/source-sbom.log"
+    },
+    {
+      "id": "docker-engine",
+      "status": "BLOCKED",
+      "reason": "Docker engine is not installed in this execution environment."
+    },
+    {
+      "id": "kubernetes-client",
+      "status": "BLOCKED",
+      "reason": "kubectl and a target production-like cluster are unavailable."
+    },
+    {
+      "id": "postgres-client",
+      "status": "BLOCKED",
+      "reason": "psql and a production-equivalent PostgreSQL endpoint are unavailable."
+    },
+    {
+      "id": "container-security-tools",
+      "status": "BLOCKED",
+      "reason": "Resolved image SBOM and vulnerability tools are unavailable."
+    },
+    {
+      "id": "live-provider-credentials",
+      "status": "BLOCKED",
+      "missing": [
+        "PAYMENT_PROVIDER_URL",
+        "PAYMENT_PROVIDER_KEY",
+        "PAYOUT_PROVIDER_URL",
+        "PAYOUT_PROVIDER_KEY",
+        "VERIFICATION_PROVIDER_URL",
+        "VERIFICATION_PROVIDER_KEY",
+        "CONSENT_PROVIDER_URL",
+        "CONSENT_PROVIDER_KEY",
+        "TAX_PROVIDER_URL",
+        "TAX_PROVIDER_KEY",
+        "OBJECT_STORAGE_UPLOAD_URL",
+        "OBJECT_STORAGE_PUBLIC_URL"
+      ]
+    },
+    {
+      "id": "android-device",
+      "status": "BLOCKED",
+      "reason": "ANDROID_SERIAL is not configured."
+    },
+    {
+      "id": "ios-device",
+      "status": "BLOCKED",
+      "reason": "IOS_DEVICE_UDID is not configured."
+    },
+    {
+      "id": "unity-runtime",
+      "status": "BLOCKED",
+      "reason": "UNITY_EDITOR_PATH is not configured."
+    }
+  ]
+}
